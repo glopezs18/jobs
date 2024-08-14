@@ -35,7 +35,12 @@ export const routes: Routes = [
   {
     path: 'profile/p-location',
     loadComponent: () => import('./profile/p-location/p-location.page').then( m => m.PLocationPage)
+  },
+  {
+    path: 'activity/a-detail/:id',
+    loadComponent: () => import('./activity/a-detail/a-detail.page').then( m => m.ADetailPage)
   }
+
 ];
 
 // export const WorkerRoutes = RouterModule.forChild(routes);
