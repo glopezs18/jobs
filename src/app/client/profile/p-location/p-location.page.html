@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Regresar" defaultHref="client/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Direcciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">  
+  <ion-list [inset]="true">
+    <ion-item [button]="true" detailIcon="ellipsis-vertical" (click)="presentActionSheet('dir1', 'Av. Petapa 2301')">
+      <div class="unread-indicator-wrapper" slot="start">
+        <div class="unread-indicator"></div>
+      </div>
+      <ion-label>
+        <ion-icon slot="start" name="location-outline"></ion-icon>
+        <strong>Trabajo</strong><br />
+        <ion-text>Av. Petapa 2301, Código Digital</ion-text><br />
+        <ion-note color="medium" class="ion-text-wrap">
+          23-01 a la par de un banco G&T
+        </ion-note>
+      </ion-label>
+    </ion-item>
+    <ion-item [button]="true" detailIcon="ellipsis-vertical" (click)="presentActionSheet('dir2', 'Calz. San Juan')">
+      <div class="unread-indicator-wrapper" slot="start"></div>
+      <ion-label>
+        <ion-icon slot="start" name="location-outline"></ion-icon>
+        <strong>Casa</strong><br />
+        <ion-text>Calz. San Juan, Apto 9</ion-text><br />
+        <ion-note color="medium" class="ion-text-wrap">10ma. Avenida 1 calle 10-32 Zona 4 de Mixco</ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

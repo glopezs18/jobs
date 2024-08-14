@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Regresar" defaultHref="client/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Información Personal</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <h5>Datos Personales</h5>
+  <form [formGroup]="form" #f="ngForm" autocomplete="off">
+    <ion-list>
+      <ion-item>
+        <ion-input
+        type="text"        
+        labelPlacement="floating"           
+        ngModel
+        name
+        formControlName="name">
+          <div slot="label">Nombre Completo <ion-text color="danger"></ion-text></div>
+       </ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-input
+        type="email"        
+        labelPlacement="floating"           
+        ngModel
+        email
+        formControlName="email">
+          <div slot="label">Email <ion-text color="danger"></ion-text></div>
+       </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+        type="tel"        
+        labelPlacement="floating"           
+        ngModel
+        tel
+        formControlName="tel">
+          <div slot="label">Número de celular <ion-text color="danger"></ion-text></div>
+       </ion-input>
+      </ion-item>           
+  
+      <ion-item>
+        <ion-input
+        type="date"        
+        labelPlacement="floating"           
+        ngModel
+        birthday
+        formControlName="birthday">
+          <div slot="label">Fecha de nacimiento <ion-text color="danger"></ion-text></div>
+       </ion-input>
+      </ion-item>  
+
+      <ion-item>
+        <ion-select formControlName="gender" placeholder="Selecciona tu género">
+          <div slot="label">Género </div>
+          <ion-select-option value="1">Masculino</ion-select-option>
+          <ion-select-option value="2">Femenino</ion-select-option>          
+        </ion-select>
+      </ion-item>
+  
+      <ion-item>
+        <ion-input 
+        type="password"        
+        labelPlacement="floating" 
+        formControlName="password">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          <div slot="label">Contraseña</div>
+        </ion-input>        
+        <!-- <ion-input
+        type="password"        
+        labelPlacement="floating"           
+        ngModel
+        password
+        formControlName="password">
+          
+          
+       </ion-input> -->
+      </ion-item>          
+    </ion-list>
+
+    <ion-button class="pinformation-save-btn" expand="block">Guardar</ion-button>
+  </form>  
+</ion-content>

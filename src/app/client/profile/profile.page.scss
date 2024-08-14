@@ -1,0 +1,32 @@
+.profile-content {
+    &-info {
+        padding-top: 15px;
+        ion-icon {
+            margin: 0 auto;
+            display: block;
+            font-size: 60px;
+            color: #8c8c8c;
+        }
+
+        &-username {
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        &-email {
+            font-size: 15px;
+        }
+    }
+}
+
+.profile-items {
+    ion-item {
+        // margin: 10px 0;
+        // padding: 10px 0;
+        // border-radius: 10px;
+        // box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.20);
+        // .item-inner {
+        //     border-style: none !important;
+        // }
+    }
+}

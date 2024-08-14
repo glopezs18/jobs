@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-container">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Apellido</ion-label>
+        <ion-input type="text" formControlName="lastname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <!-- <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="email?.hasError('required')">
+          Email is required
+        </ion-text>
+        <ion-text color="danger" *ngIf="email?.hasError('email')">
+          Email is invalid
+        </ion-text>
+      </div> -->
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password"></ion-input>
+        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="showPassword = !showPassword"></ion-icon>
+      </ion-item>
+      <!-- <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="password?.hasError('required')">
+          Password is required
+        </ion-text>
+        <ion-text color="danger" *ngIf="password?.hasError('minlength')">
+          Password must be at least 6 characters long
+        </ion-text>
+      </div> -->
+      <ion-item>
+        <ion-label position="floating">Repetir contraseña</ion-label>
+        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="repeat_password"></ion-input>
+        <!-- <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="showPassword = !showPassword"></ion-icon> -->
+      </ion-item>
+      <ion-button expand="block" type="submit" [disabled]="!registerForm.valid">Registrarme</ion-button>
+    </form>
+    <ion-button expand="block" fill="clear" (click)="navigateToSignIn()">are you member? SignIn!</ion-button>
+  </div>
+</ion-content>
