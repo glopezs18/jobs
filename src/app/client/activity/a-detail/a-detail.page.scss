@@ -1,0 +1,50 @@
+.activity-content {
+    &-info {
+        // padding-top: 15px;
+        ion-icon {
+            margin: 0 auto;
+            display: block;
+            font-size: 60px;
+            color: #8c8c8c;
+        }
+
+        &-services {
+            font-weight: bold;
+            font-size: 25px;
+            text-align: center;
+        }
+
+        &-name {
+            text-align: center;
+            margin-top: 10px;
+            // font-size: 15px;
+            // line-height: 35px;
+        }
+    }
+}
+
+ion-thumbnail {
+    --size: 70px;
+    --border-radius: 14px;
+}
+
+.acitivty-text {
+    font-size: 15px;
+    // margin: 10px 0;
+    display: block;
+}
+
+.activity-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.activity-subtitle {
+    font-size: 14px;
+}
+
+ion-label {
+    .activity-subtitle {
+        font-weight: bold;
+    }
+}

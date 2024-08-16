@@ -8,6 +8,77 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <h3>{{ current_activity_id }}</h3>
+<ion-content [fullscreen]="true" class="ion-padding">  
+  <ion-row class="activity-content-info">
+    <!-- <ion-col size="12">
+      <ion-icon name="person-circle"></ion-icon>              
+    </ion-col> 
+    <ion-col size="12" class="ion-text-center">
+      <div>
+        <ion-label class="activity-content-info-name">Jorge Emanuel</ion-label>
+      </div>
+      <div>
+        <ion-label class="activity-content-info-category">Servicio de electricidad {{ current_activity_id }}</ion-label>
+      </div>
+    </ion-col>       -->    
+    <ion-col size="12" class="ion-text-left">
+      <ion-item lines="none">
+        <ion-label>
+          <h3 class="activity-title">Instalación de cableado {{ current_activity_id }}</h3>
+          <ion-badge color="secondary">Completado</ion-badge>
+        </ion-label> 
+      </ion-item>
+    </ion-col>   
+  </ion-row>
+  
+  <ion-row>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+      </ion-thumbnail>
+      <ion-label>Jorge Emanuel</ion-label>
+    </ion-item>
+  </ion-row>
+  <ion-row class="ion-padding-start">    
+    <ion-col size="12" class="ion-margin-top">
+      <ion-text class="acitivty-text">12 de agosto de 2024, 12:00PM</ion-text>
+    </ion-col>
+    <ion-col size="12">
+      <ion-text class="acitivty-text">GTQ500.00</ion-text>    
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="12">
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label>
+            <h5 class="activity-subtitle">              
+              Dirección
+            </h5>
+            <p>              
+              <ion-icon slot="start" name="location-outline"></ion-icon>
+              1 calle 10-32 zona 4 de mixco
+            </p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h5 class="activity-subtitle">              
+              Descripción
+            </h5>
+            <p>
+              Servicio de instalación de cableado eléctrico
+            </p>
+          </ion-label>
+          <!-- <ion-icon slot="start" name="reader-outline"></ion-icon> -->
+          <!-- <ion-label>Descripción</ion-label> -->
+          
+        </ion-item>
+        <ion-item>
+          <ion-label>Inset Lines</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
 </ion-content>
