@@ -1,0 +1,25 @@
+.home-subtitle {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.subtitle-view-all {
+    a {
+        text-decoration: none;
+    }
+}
+
+ion-thumbnail{
+    --size: 60px;
+    --border-radius: 14px;
+}
+
+.home-categorie-item{
+    border: 1px solid #bdbbbb;
+    border-radius: 15px;
+    padding: 10px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+    display: block;
+}
