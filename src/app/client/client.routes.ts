@@ -39,7 +39,12 @@ export const routes: Routes = [
   {
     path: 'activity/a-detail/:id',
     loadComponent: () => import('./activity/a-detail/a-detail.page').then( m => m.ADetailPage)
+  },
+  {
+    path: 'home/h-categorie-single/:id',
+    loadComponent: () => import('./home/h-categorie-single/h-categorie-single.page').then( m => m.HCategorieSinglePage)
   }
+
 
 ];
 

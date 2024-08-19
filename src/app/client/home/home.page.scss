@@ -9,12 +9,12 @@
     }
 }
 
-ion-thumbnail{
+ion-thumbnail {
     --size: 60px;
     --border-radius: 14px;
 }
 
-.home-categorie-item{
+.home-categorie-item {
     border: 1px solid #bdbbbb;
     border-radius: 15px;
     padding: 10px;
@@ -22,4 +22,15 @@ ion-thumbnail{
     height: 80px;
     margin: 0 auto 10px;
     display: block;
+}
+
+ion-card {
+    img {
+        border-radius: 15px;
+    }
+}
+
+.flex-col {
+    display : flex;
+  align-items : center;
 }

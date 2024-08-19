@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonSearchbar, IonCol, IonRow, IonImg, IonItem, IonLabel, IonGrid, IonButton, IonThumbnail, IonSkeletonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
+import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonSearchbar, IonCol, IonRow, IonGrid, IonImg, IonItem, IonButton, IonLabel, IonThumbnail, IonSkeletonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle]
+  imports: [RouterModule, CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonSearchbar, IonCol, IonRow, IonGrid, IonImg, IonItem, IonButton, IonLabel, IonThumbnail, IonSkeletonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle]
 })
 export class HomePage implements OnInit {
   public loaded = false;
