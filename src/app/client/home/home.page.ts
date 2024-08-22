@@ -1,8 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonSearchbar, IonCol, IonRow, IonImg, IonItem, IonLabel, IonGrid, IonButton, IonThumbnail, IonSkeletonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonSegment, IonSegmentButton, IonButtons } from '@ionic/angular/standalone';
+import {
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonContent, 
+  IonSearchbar, 
+  IonCol, 
+  IonRow, 
+  IonImg, 
+  IonItem, 
+  IonLabel, 
+  IonGrid, 
+  IonButton, 
+  IonThumbnail, 
+  IonSkeletonText, 
+  IonCard, 
+  IonCardContent, 
+  IonCardHeader, 
+  IonCardTitle, 
+  IonCardSubtitle, 
+  IonSegment, 
+  IonSegmentButton, 
+  IonButtons
+} from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
-import {RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -61,7 +84,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
 
     if (this.jobs_categories.length > 0) {
-       this.loaded = true;
+      this.loaded = true;
     }
   }
 

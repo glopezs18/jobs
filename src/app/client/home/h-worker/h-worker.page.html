@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Regresar" defaultHref="client/profile"></ion-back-button>
+    </ion-buttons>
+    <!-- <ion-title>Jorge Ordoñez</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <ion-card-header>
+      <ion-card-title>Plumbing Repair</ion-card-title>
+      <ion-card-subtitle>Jorge Ordoñez</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <p class="cost-for-hour"><span>GTQ30</span>/hora</p>
+      <div class="divisor-line"></div>
+      <ion-label>
+        <h4 class="person-service-title">Sobre mi</h4>
+      </ion-label>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi quidem cupiditate earum libero nulla recusandae commodi quibusdam, ipsam tempore dignissimos numquam laborum non. Dolorem repellendus eligendi nostrum est quis assumenda.</p>
+      <ion-label>
+        <h4 class="person-service-title">Portafolio</h4>
+      </ion-label>
+      <swiper-container [pagination]="true" navitagion="true">
+        <swiper-slide class="SwiperSlide">
+          <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
+        </swiper-slide>
+        <swiper-slide class="SwiperSlide">
+          <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
+        </swiper-slide>
+        <swiper-slide class="SwiperSlide">
+          <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
+        </swiper-slide>
+        <swiper-slide class="SwiperSlide">
+          <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
+        </swiper-slide>
+        <swiper-slide class="SwiperSlide">
+          <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
+        </swiper-slide>
+      </swiper-container>
+    </ion-card-content>
+  </ion-card>  
+</ion-content>
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Footer</ion-title>
+  </ion-toolbar>
+</ion-footer>

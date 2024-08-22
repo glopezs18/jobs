@@ -1,0 +1,21 @@
+.flex-col {
+    display : flex;
+    align-items : center;
+}
+
+ion-card {
+    img {
+        border-radius: 15px;
+    }
+}
+
+ion-card-header {
+    padding-bottom: 0;
+}
+
+.cost-for-hour {
+    font-size: 15px;
+    span {
+        font-weight: bold;
+    }
+}

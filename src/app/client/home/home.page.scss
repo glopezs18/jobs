@@ -30,7 +30,18 @@ ion-card {
     }
 }
 
+ion-card-header {
+    padding-bottom: 0;
+}
+
 .flex-col {
     display : flex;
-  align-items : center;
+    align-items : center;
+}
+
+.cost-for-hour {
+    font-size: 15px;
+    span {
+        font-weight: bold;
+    }
 }
