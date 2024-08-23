@@ -36,6 +36,7 @@ import { RouterModule } from '@angular/router';
 })
 export class HomePage implements OnInit {
   public loaded = false;
+  
 
   jobs_categories = [
     {
@@ -81,8 +82,7 @@ export class HomePage implements OnInit {
   ]
   constructor() { }
 
-  ngOnInit() {
-
+  ngOnInit() {        
     if (this.jobs_categories.length > 0) {
       this.loaded = true;
     }
