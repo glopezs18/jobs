@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let conversation of conversations; trackBy: trackByFn" [routerLink]="'c-l-detail/' + conversation.id">
+      <ion-avatar slot="start">
+        <img [src]="conversation.imageUrl" alt="{{ conversation.title }}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ conversation.title }}</h2>
+        <p>{{ conversation.lastMessage }}</p>
+      </ion-label>
+      <ion-badge *ngIf="conversation.unreadCount > 0" color="primary">{{ conversation.unreadCount }}</ion-badge>
+      <ion-note slot="end">{{ conversation.timestamp | date:'shortTime' }}</ion-note>
+    </ion-item>
+  </ion-list>
+</ion-content>

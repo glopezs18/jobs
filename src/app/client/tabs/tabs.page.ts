@@ -17,7 +17,8 @@ import {
   imageOutline,
   trashOutline,
   homeOutline,
-  createOutline
+  createOutline,
+  chatbubbles
 } from 'ionicons/icons';
 
 @Component({
@@ -31,6 +32,6 @@ export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);
 
   constructor() {
-    addIcons({ triangle, ellipse, square, person, receipt, home, personCircle, settings, settingsOutline, locationOutline, logOutOutline, cameraOutline, imageOutline, trashOutline, homeOutline, createOutline });
+    addIcons({ triangle, ellipse, square, person, receipt, home, personCircle, settings, settingsOutline, locationOutline, logOutOutline, cameraOutline, imageOutline, trashOutline, homeOutline, createOutline, chatbubbles });
   }
 }

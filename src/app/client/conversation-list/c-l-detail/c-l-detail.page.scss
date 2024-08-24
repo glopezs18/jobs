@@ -1,0 +1,38 @@
+.message {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    max-width: 100%; /* Limita el ancho máximo de los mensajes */
+    word-wrap: break-word;
+  }
+  
+  .message-sent {
+    align-self: flex-end;
+    background-color: #43b9f8; /* Verde claro */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px 20px 0 20px; /* Bordes redondeados solo en algunas esquinas */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    margin-bottom: 10px;
+  }
+  
+  .message-received {
+    align-self: flex-start;
+    background-color: #F1F0F0; /* Gris claro */
+    color: black;
+    padding: 10px 15px;
+    border-radius: 20px 20px 20px 0; /* Bordes redondeados solo en algunas esquinas */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    margin-bottom: 10px;
+  }
+  
+  .message p {
+    margin: 0; /* Elimina el margen por defecto del párrafo */
+  }
+  
+  ion-note {
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: #888; /* Color gris para el timestamp */
+  }
+  

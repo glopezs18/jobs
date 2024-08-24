@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Regresar" defaultHref="client/conversation"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ conversation?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let message of messages" class="message">
+    <div [ngClass]="{ 'message-sent': message.sender === 'Me', 'message-received': message.sender !== 'Me' }">
+      <p>{{ message.text }}</p>
+      <ion-note>{{ message.timestamp | date:'shortTime' }}</ion-note>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-input [(ngModel)]="newMessage" placeholder="Type a message" clearInput></ion-input>
+    <ion-buttons slot="end">
+      <ion-button (click)="sendMessage()">
+        <!-- Send -->
+        <ion-icon slot="start" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

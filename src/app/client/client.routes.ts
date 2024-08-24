@@ -22,6 +22,11 @@ export const routes: Routes = [
           import('../client/profile/profile.page').then((m) => m.ProfilePage),
       },
       {
+        path: 'conversation',
+        loadComponent: () =>
+          import('../client/conversation-list/conversation-list.page').then((m) => m.ConversationListPage),
+      },
+      {
         path: '',
         redirectTo: '/client/home',
         pathMatch: 'full',
@@ -47,9 +52,11 @@ export const routes: Routes = [
   {
     path: 'home/h-worker/:id',
     loadComponent: () => import('./home/h-worker/h-worker.page').then( m => m.HWorkerPage)
+  },
+  {
+    path: 'conversation/c-l-detail/:id',
+    loadComponent: () => import('./conversation-list/c-l-detail/c-l-detail.page').then( m => m.CLDetailPage)
   }
-
-
 
 ];
 
