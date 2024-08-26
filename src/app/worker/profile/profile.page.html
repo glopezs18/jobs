@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['p-settings']">
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mi Perfil</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="profilePhotoUrl || 'https://c7.alamy.com/comp/2G104M8/electrician-avatar-man-working-with-electricity-profile-user-person-people-icon-isolated-vector-illustration-2G104M8.jpg'" />
+        </ion-avatar>
+        <ion-button (click)="uploadPhoto()">Subir Foto</ion-button>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input [(ngModel)]="profile.name"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Correo</ion-label>
+        <ion-input [(ngModel)]="profile.email"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea [(ngModel)]="profile.description" placeholder="Describa su experiencia y habilidades"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tarifa por Servicio</ion-label>
+        <ion-input [(ngModel)]="profile.rate" placeholder="Ejemplo: $20/hora"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Categorías de Servicio</ion-label>
+        <ion-select [(ngModel)]="profile.categories" multiple="true">
+          <ion-select-option *ngFor="let category of availableCategories">{{ category }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button expand="full" (click)="saveProfile()">Guardar Cambios</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-list>
+    <ion-item button (click)="goToSettings()">
+      <ion-icon name="settings-outline" slot="start"></ion-icon>
+      <ion-label>Configuración</ion-label>
+    </ion-item>
+  </ion-list> -->
+</ion-content>

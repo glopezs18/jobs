@@ -24,7 +24,7 @@ export const routes: Routes = [
       {
         path: 'conversation',
         loadComponent: () =>
-          import('../client/conversation-list/conversation-list.page').then((m) => m.ConversationListPage),
+          import('../client/conversation-list/conversation-list.page').then((m) => m.ConversationListPage)
       },
       {
         path: '',

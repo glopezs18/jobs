@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Regresar" defaultHref="worker/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!-- Cambiar Contraseña -->
+    <ion-item button (click)="changePassword()">
+      <ion-label>Cambiar Contraseña</ion-label>
+    </ion-item>
+
+    <!-- Notificaciones -->
+    <ion-item>
+      <ion-label>Habilitar Notificaciones</ion-label>
+      <ion-toggle [(ngModel)]="notificationsEnabled" (ionChange)="toggleNotifications()"></ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="notificationsEnabled">
+      <ion-label>Notificaciones por Email</ion-label>
+      <ion-toggle [(ngModel)]="emailNotifications" (ionChange)="toggleEmailNotifications()"></ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="notificationsEnabled">
+      <ion-label>Notificaciones por SMS</ion-label>
+      <ion-toggle [(ngModel)]="smsNotifications" (ionChange)="toggleSMSNotifications()"></ion-toggle>
+    </ion-item>
+
+    <!-- Otras Opciones -->
+    <ion-item>
+      <ion-label>Idioma</ion-label>
+      <ion-select placeholder="Seleccionar">
+        <ion-select-option value="es">Español</ion-select-option>
+        <ion-select-option value="en">Inglés</ion-select-option>
+        <!-- Agrega más opciones de idioma si es necesario -->
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Terminos y Condiciones</ion-label>
+      <ion-button expand="block">Ver</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

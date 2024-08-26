@@ -17,9 +17,13 @@ export const routes: Routes = [
           import('../worker/tab2/tab2.page').then((m) => m.Tab2Page),
       },
       {
-        path: 'tab3',
+        path: 'services-list',
+        loadComponent: () => import('./services-list/services-list.page').then( m => m.ServicesListPage)
+      },
+      {
+        path: 'profile',
         loadComponent: () =>
-          import('../worker/tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../worker/profile/profile.page').then((m) => m.ProfilePage),
       },
       {
         path: '',
@@ -27,6 +31,14 @@ export const routes: Routes = [
         pathMatch: 'full',
       }
     ]
+  },
+  {
+    path: 'profile/p-settings',
+    loadComponent: () => import('./profile/p-settings/p-settings.page').then( m => m.PSettingsPage)
+  },
+  {
+    path: 'services-list',
+    loadComponent: () => import('./services-list/services-list.page').then( m => m.ServicesListPage)
   }
 ];
 
