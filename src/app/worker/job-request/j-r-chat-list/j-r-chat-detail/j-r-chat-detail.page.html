@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Regresar" defaultHref="worker/job-request/j-r-chat-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ clientName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="chat-container">
+    <div *ngFor="let message of messages" [ngClass]="{'message-sent': message.sent, 'message-received': !message.sent}">
+      <div class="message-bubble">
+        <p>{{ message.text }}</p>
+        <small>{{ message.timestamp | date:'shortTime' }}</small>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="input-toolbar">
+    <!-- <ion-item lines="none" class="message-input"> -->
+      <ion-input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..."></ion-input>
+      <ion-buttons slot="end">
+        <ion-button (click)="sendMessage()">
+          <ion-icon slot="start" name="send"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    <!-- </ion-item> -->
+  </ion-toolbar>
+</ion-footer>

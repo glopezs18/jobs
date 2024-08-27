@@ -1,0 +1,30 @@
+ion-card {
+    --card-background: #f9f9f9;
+    --card-border-radius: 15px;
+    --card-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+ion-card-title {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+ion-item {
+    --inner-padding-end: 0;
+    --padding-start: 0;
+}
+
+ion-badge {
+    font-size: 1.2em;
+    padding: 8px;
+}
+
+ion-button {
+    --border-radius: 10px;
+    --background: linear-gradient(45deg, #42a5f5, #478ed1);
+}
+
+ion-grid {
+    padding: 10px;
+}

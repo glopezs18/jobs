@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Solicitudes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Listado de Solicitudes Recibidas -->
+  <ion-list>
+    <ion-item-divider>
+      <ion-label>Solicitudes Recibidas</ion-label>
+    </ion-item-divider>
+
+    <!-- <ion-item *ngFor="let request of jobRequests" [routerLink]="'j-r-detail/' + request.id"> -->
+    <ion-item *ngFor="let request of jobRequests" (click)="viewRequestDetails(request)">
+      <ion-label>
+        <h2>{{ request.client }}</h2>
+        <p>{{ request.service }}</p>
+        <p>{{ request.date | date:'short' }}</p>
+        <ion-badge color="{{ getBadgeColor(request.status) }}">{{ request.status }}</ion-badge>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Navegación al Historial de Trabajos -->
+  <ion-item button (click)="goToJobHistory()">
+    <ion-icon slot="start" name="briefcase-outline"></ion-icon>
+    <ion-label>Historial de Trabajos</ion-label>
+  </ion-item>
+
+  <!-- Navegación al Chat General -->
+  <ion-item button (click)="goToChats()">
+    <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+    <ion-label>Chats con Clientes</ion-label>
+  </ion-item>
+</ion-content>

@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="worker/job-request"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historial de Trabajos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let job of jobHistory" (click)="viewJobDetail(job)">
+      <ion-label>
+        <h2>{{ job.serviceName }}</h2>
+        <p>{{ job.clientName }} - {{ job.date | date:'medium' }}</p>
+        <ion-badge [color]="getBadgeColor(job.status)">{{ job.status }}</ion-badge>
+      </ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

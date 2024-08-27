@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="worker/job-request"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Conversaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let chat of chatList" (click)="openChat(chat)">
+      <ion-avatar slot="start">
+        <img src="{{ chat.clientAvatar }}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ chat.clientName }}</h2>
+        <p>{{ chat.lastMessage | slice:0:30 }}...</p>
+      </ion-label>
+      <ion-badge color="primary" *ngIf="chat.unreadCount > 0">{{ chat.unreadCount }}</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>

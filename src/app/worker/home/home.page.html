@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Panel Principal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <!-- Resumen de Actividad -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Resumen de Actividad</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label>Solicitudes Recibidas</ion-label>
+                    <ion-badge color="primary" slot="end">{{ totalRequests }}</ion-badge>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label>Trabajos Completados</ion-label>
+                    <ion-badge color="success" slot="end">{{ completedJobs }}</ion-badge>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label>Ingresos Generados</ion-label>
+                    <ion-badge color="tertiary" slot="end">{{ totalIncome | currency }}</ion-badge>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-item lines="none">
+                    <ion-label>Comentarios Recibidos</ion-label>
+                    <ion-badge color="warning" slot="end">{{ clientFeedbacks }}</ion-badge>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Estadísticas -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Estadísticas</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label>Ingresos por Categoría</ion-label>
+              <ion-button fill="outline" slot="end" (click)="viewCategoryIncome()">
+                Ver Detalles
+              </ion-button>
+            </ion-item>
+            <ion-item>
+              <ion-label>Trabajos Realizados por Mes</ion-label>
+              <ion-button fill="outline" slot="end" (click)="viewMonthlyJobs()">
+                Ver Detalles
+              </ion-button>
+            </ion-item>
+            <!-- Aquí podrías añadir más gráficos o estadísticas relevantes -->
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

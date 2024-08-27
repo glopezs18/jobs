@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="worker/job-request"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalles de la Solicitud</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ request.client }}</ion-card-title>
+      <ion-card-subtitle>{{ request.service }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Fecha:</strong> {{ request.date }}</p>
+      <p><strong>Descripción:</strong> {{ request.description }}</p>
+      <p><strong>Dirección:</strong> {{ request.address }}</p>
+      <p><strong>Tarifa Ofrecida:</strong> ${{ request.price }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="full" color="success" (click)="acceptRequest()">Aceptar Solicitud</ion-button>
+  <ion-button expand="full" color="danger" (click)="rejectRequest()">Rechazar Solicitud</ion-button>
+</ion-content>
