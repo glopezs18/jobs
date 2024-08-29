@@ -30,7 +30,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/worker/tab1',
+        redirectTo: '/worker/home',
         pathMatch: 'full',
       }
     ]
