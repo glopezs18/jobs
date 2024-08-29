@@ -36,14 +36,14 @@
   </ion-row>
 
   <ion-row *ngIf="loaded">
-    <ion-col size="4" *ngFor="let item of jobs_categories;">
+    <ion-col size="4" *ngFor="let item of worker_categories;">
       <ion-item [routerLink]="'h-categorie-single/' + item.id" button lines="none" detail="false">          
         <ion-label>
           <ion-thumbnail class="ion-margin-bottom home-categorie-item">
-            <img alt="Silhouette of mountains" src="{{ item.image }}" />
+            <img alt="Silhouette of mountains" src="{{ item.picture }}" />
           </ion-thumbnail>
           <h4 class="ion-text-center">
-            {{ item.job_name }}
+            {{ item.name }}
           </h4>
         </ion-label>
       </ion-item>

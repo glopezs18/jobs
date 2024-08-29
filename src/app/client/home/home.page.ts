@@ -26,6 +26,8 @@ import {
 } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
 import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { RestService } from '../../services/rest.service'
 
 @Component({
   selector: 'app-home',
@@ -36,7 +38,9 @@ import { RouterModule } from '@angular/router';
 })
 export class HomePage implements OnInit {
   public loaded = false;
-  
+
+  worker_categories: any[] = [];
+  // items: any[] = [];
 
   jobs_categories = [
     {
@@ -80,12 +84,30 @@ export class HomePage implements OnInit {
       image: 'https://cdn.icon-icons.com/icons2/1670/PNG/512/10514manconstructionworkerlightskintone_110617.png'
     }
   ]
-  constructor() { }
+  constructor(
+    private restService: RestService
+  ) { }
 
   ngOnInit() {        
     if (this.jobs_categories.length > 0) {
       this.loaded = true;
-    }
+    }    
+    this.get_worker_categories();
+    
   }
 
+  async get_worker_categories() {
+    this.worker_categories = await this.restService.get_worker_categories();
+    
+    this.get_worker_categorie_by_id(this.worker_categories[0].id);
+    console.log("this.worker_categories", this.worker_categories);
+  }
+
+   async get_worker_categorie_by_id(_wc_id: any) {    
+    
+    const result = await this.restService.get_worker_categorie_by_id(_wc_id);
+
+    console.log("result_by_id", result);
+    
+  }
 }
