@@ -17,6 +17,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -59,7 +60,8 @@ export class ProfilePage implements OnInit {
     },
   ];
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -74,7 +76,7 @@ export class ProfilePage implements OnInit {
   }
 
   logout(){
-    console.log("cerrar sesión")
+    this.authService.logout();
   }
 
 }

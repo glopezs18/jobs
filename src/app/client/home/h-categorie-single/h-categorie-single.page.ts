@@ -21,7 +21,7 @@ import {
  } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from "@angular/router";
 import { RouterModule } from '@angular/router';
-import { RestService } from '../../../services/rest.service'
+import { RestService } from '../../../services/rest.service';
 
 @Component({
   selector: 'app-h-categorie-single',
@@ -34,6 +34,7 @@ export class HCategorieSinglePage implements OnInit {
 
   current_categorie_id: any = null;
   current_worker_categorie: any[] = [];
+  current_categorie: any = null;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -42,18 +43,40 @@ export class HCategorieSinglePage implements OnInit {
 
   ngOnInit() {
     this.current_categorie_id = this.route.snapshot.paramMap.get("id");
-    this.get_worker_categorie_by_id();
+    this.get_categorie_by_id(this.current_categorie_id);
+    this.get_worker_by_idcategorie(this.current_categorie_id);
   }
 
-  async get_worker_categorie_by_id() {    
-    console.log("this.current_categorie_id", this.current_categorie_id);
+  async get_worker_by_idcategorie(_wc_id: any) {       
     
-    //  this.current_worker_categorie = await this.restService.get_worker_categorie_by_id(this.current_categorie_id);
+    try {
+      const data = await this.restService.get_worker_by_idcategorie(_wc_id);
+      this.current_worker_categorie = data;
+      // console.log("get_workers_by_idcategorie", this.current_worker_categorie);
+      
+    } catch(error) {
+      console.error("Error fetching category by ID:", error);
+    }
     
   }
 
-  navigateToWorkerSingle(_id: string) {
-    this.router.navigate(['/client/home/h-worker/' + _id]);
+  async get_categorie_by_id(_c_id: any) {       
+    
+    try {
+      const data = await this.restService.get_categorie_by_id(_c_id);
+      this.current_categorie = data[0];
+      // console.log("current_categorie", this.current_categorie);
+      
+    } catch(error) {
+      console.error("Error fetching category by ID:", error);
+    }
+    
+  }
+
+  navigateToWorkerSingle(_item: any) {
+    console.log(_item);
+    
+    this.router.navigate(['/client/home/h-worker/' + _item.id]);
   }
 
 }

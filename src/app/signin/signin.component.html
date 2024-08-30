@@ -6,7 +6,7 @@
 
 <ion-content>
   <div class="login-container">
-    <form [formGroup]="credentials">
+    <form [formGroup]="credentialsForm">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
@@ -33,8 +33,11 @@
           Password must be at least 6 characters long
         </ion-text>
       </div> -->
-      <ion-button expand="block" type="submit" (click)="login_client()" [disabled]="!credentials.valid">Login client</ion-button>
-      <ion-button expand="block" type="submit" (click)="login_worker()" [disabled]="!credentials.valid">Login worker</ion-button>
+      <ion-button expand="block" type="submit" (click)="login()" [disabled]="!credentialsForm.valid">Login client</ion-button>
+      
+
+      <!-- <ion-button expand="block" type="submit" (click)="login_client()" [disabled]="!credentials.valid">Login client</ion-button>
+      <ion-button expand="block" type="submit" (click)="login_worker()" [disabled]="!credentials.valid">Login worker</ion-button> -->
     </form>
     <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">Not yet a member? Sign
       Up!</ion-button>

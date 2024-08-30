@@ -98,16 +98,8 @@ export class HomePage implements OnInit {
 
   async get_worker_categories() {
     this.worker_categories = await this.restService.get_worker_categories();
-    
-    this.get_worker_categorie_by_id(this.worker_categories[0].id);
-    console.log("this.worker_categories", this.worker_categories);
+        
+    // console.log("this.worker_categories", this.worker_categories);
   }
-
-   async get_worker_categorie_by_id(_wc_id: any) {    
-    
-    const result = await this.restService.get_worker_categorie_by_id(_wc_id);
-
-    console.log("result_by_id", result);
-    
-  }
+   
 }

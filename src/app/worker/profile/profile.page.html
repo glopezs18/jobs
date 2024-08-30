@@ -53,6 +53,17 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-row>
+    <ion-col size="12">
+      <ion-list [inset]="true">
+        <ion-item type="button" (click)="logout()">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar sesión</ion-label>            
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+
   <!-- <ion-list>
     <ion-item button (click)="goToSettings()">
       <ion-icon name="settings-outline" slot="start"></ion-icon>

@@ -34,6 +34,9 @@ import { register } from 'swiper/element/bundle';
 import { mailOutline, calendarOutline, sendOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from "@angular/router";
+import { RestService } from '../../../services/rest.service'
 
 
 register();
@@ -42,7 +45,7 @@ register();
   templateUrl: './h-worker.page.html',
   styleUrls: ['./h-worker.page.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonButtons, IonBackButton, IonFooter, IonLabel, IonRow, IonCol, IonIcon, IonModal, IonInput, IonList, IonItem, IonTextarea, IonText, IonToast, IonDatetime, IonSelect, IonSelectOption],
+  imports: [RouterModule, ReactiveFormsModule, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonButtons, IonBackButton, IonFooter, IonLabel, IonRow, IonCol, IonIcon, IonModal, IonInput, IonList, IonItem, IonTextarea, IonText, IonToast, IonDatetime, IonSelect, IonSelectOption],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]
@@ -54,6 +57,8 @@ export class HWorkerPage implements OnInit {
   msg: string;
   description_service: string;
   location_service:  string;
+  current_worker_id: any = null;
+  current_worker: any = null;
   date_service = null;
   isToastOpen = false;
 
@@ -78,17 +83,35 @@ export class HWorkerPage implements OnInit {
   ];
 
   constructor(
-    private builder: FormBuilder
+    private builder: FormBuilder,
+    private route: ActivatedRoute,    
+    private restService: RestService
   ) {
     addIcons({ mailOutline, calendarOutline, sendOutline });
   }
 
   ngOnInit() {
+    this.current_worker_id = this.route.snapshot.paramMap.get("id");    
+    this.get_worker_by_id(this.current_worker_id);
     this.form_msg = this.builder.group({
       // id: [null, Validators.required],
       subject: [null, Validators.required],
       message: [null, Validators.required]
     });
+  }
+
+  async get_worker_by_id(_wc_id: any) {    
+    console.log("this.current_worker_id", this.current_worker_id);
+    
+    try {
+      const data = await this.restService.get_worker_by_id(_wc_id);
+      this.current_worker = data[0];
+      // console.log("current_worker", this.current_worker);
+      
+    } catch(error) {
+      console.error("Error fetching category by ID:", error);
+    }
+    
   }
 
   cancelMsg() {

@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonList, IonItem, IonLabel, IonInput, IonIcon, IonAvatar, IonButton, IonSelect, IonSelectOption, IonButtons, IonTextarea } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonList, IonItem, IonLabel, IonInput, IonIcon, IonAvatar, IonButton, IonSelect, IonSelectOption, IonButtons, IonTextarea, IonRow, IonCol } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { settingsOutline } from 'ionicons/icons';
+import { settingsOutline, logOutOutline } from 'ionicons/icons';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [RouterModule, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonList, IonItem, IonLabel, IonInput, IonIcon, IonAvatar, IonButton, IonSelect, IonSelectOption, IonButtons, IonTextarea]
+  imports: [RouterModule, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonList, IonItem, IonLabel, IonInput, IonIcon, IonAvatar, IonButton, IonSelect, IonSelectOption, IonButtons, IonTextarea, IonRow, IonCol]
 })
 export class ProfilePage implements OnInit {
   profilePhotoUrl: string | undefined;
@@ -29,8 +30,12 @@ export class ProfilePage implements OnInit {
 
   availableCategories = ['Electricista', 'Plomería', 'Carpintería', 'Mecánica', 'Jardinería'];
 
-  constructor(private router: Router, private alertController: AlertController) {
-    addIcons({ settingsOutline });
+  constructor(
+    private router: Router, 
+    private alertController: AlertController,
+    private authService: AuthenticationService
+  ) {
+    addIcons({ settingsOutline, logOutOutline });
   }
 
   ngOnInit() {
@@ -91,6 +96,10 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/settings']);
   }
 
+  logout(){
+    this.authService.logout();
+  }
+  
   isMobile(): boolean {
     // Simple check to determine if the device is mobile
     return /Mobi|Android/i.test(navigator.userAgent);

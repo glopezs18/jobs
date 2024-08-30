@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonInput, IonIcon, IonButton, IonItem } from '@ionic/angular/standalone';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-signin',
@@ -11,24 +12,31 @@ import { Router } from '@angular/router';
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonInput, IonIcon, IonButton, IonItem, ReactiveFormsModule]
 })
 export class SigninComponent implements OnInit {
-  credentials!: FormGroup;
+  credentialsForm!: FormGroup;
   showPassword = false;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
-    this.credentials = this.fb.group({
-      email: ['eve.holt@reqres.in', [Validators.required, Validators.email]],
-      password: ['cityslicka', [Validators.required, Validators.minLength(6)]],
+    this.credentialsForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   login(){
-    console.log("login");
-    this.router.navigateByUrl('/tabs', { replaceUrl: true });
+    if (this.credentialsForm.valid) {
+      const { email, password } = this.credentialsForm.value;      
+      this.authService.login(email, password);
+    } else {
+      console.log("Formulario no válido");
+      
+    }
+    // this.router.navigateByUrl('/tabs', { replaceUrl: true });
   }
   login_client(){
     console.log("login client");
