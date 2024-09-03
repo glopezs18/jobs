@@ -144,7 +144,7 @@ export class PLocationPage implements OnInit {
     const locationId = this.id_location;
 
     try {
-      await this.restService.update_client_location(locationId, location_data, this.current_client_id);   
+      await this.restService.update_client_location(locationId, location_data, this.current_client_id);
       this.get_client_locations(localStorage.getItem('userID'));
       this.modal_location.dismiss(null, 'confirm');
       this.toastMsg = "Ubicación actualizada correctamente!";
@@ -172,10 +172,7 @@ export class PLocationPage implements OnInit {
   }
 
   confirm(_id_location: any) {    
-    console.log(this.name);
-    console.log(this.address);
-    console.log(this.description);
-    console.log(_id_location);   
+    
     if((this.name != undefined && this.name != '') && (this.address !== undefined && this.address != '') && (this.description !== undefined && this.description != '')){
       
       if (_id_location == undefined || _id_location == '') {

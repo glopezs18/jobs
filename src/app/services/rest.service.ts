@@ -106,8 +106,7 @@ export class RestService {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
-    // return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }));    
   }
 
   async get_client_location_by_id(_location_id: string): Promise<any[]> {
@@ -121,8 +120,7 @@ export class RestService {
     }
   }
 
-  async create_client_location(_location: any, _client_id: any): Promise<any> {
-    // const clientLocation = collection(firestore, 'client_location');
+  async create_client_location(_location: any, _client_id: any): Promise<any> {    
     try {
       const clientRef = doc(firestore, `client/${_client_id}`);
       // Agregar la referencia al campo client_id
@@ -159,4 +157,25 @@ export class RestService {
     }
   }
 
+  //Profile Client
+  async get_client_profile(_cId: string): Promise<any[]> {
+    const profileDoc = doc(firestore, `client/${_cId}`);
+    const profileSnapshot = await getDoc(profileDoc);
+    if (profileSnapshot.exists()) {
+      return [{ id: profileSnapshot.id, ...profileSnapshot.data() }];
+    } else {
+      // Manejar el caso en que el documento no existe
+      throw new Error('Documento no encontrado');
+    }
+  }
+
+  async update_client_profile(_updated_data: any, _client_id: any) {
+    const clientDoc = doc(firestore, `client/${_client_id}`);
+
+    try {
+      return await updateDoc(clientDoc, _updated_data);
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  }
 }

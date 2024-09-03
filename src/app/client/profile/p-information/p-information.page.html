@@ -54,10 +54,11 @@
       </ion-item>  
 
       <ion-item>
+        <!-- [(ngModel)]="gender"  -->
         <ion-select formControlName="gender" placeholder="Selecciona tu género">
           <div slot="label">Género </div>
-          <ion-select-option value="1">Masculino</ion-select-option>
-          <ion-select-option value="2">Femenino</ion-select-option>          
+          <ion-select-option [value]="1">Masculino</ion-select-option>
+          <ion-select-option [value]="2">Femenino</ion-select-option>          
         </ion-select>
       </ion-item>
   
@@ -81,6 +82,8 @@
       </ion-item>          
     </ion-list>
 
-    <ion-button class="pinformation-save-btn" expand="block">Guardar</ion-button>
+    <ion-button class="pinformation-save-btn" expand="block" (click)="update_profile()">Guardar</ion-button>
   </form>  
+  <ion-toast [isOpen]="isToastOpen" [message]="toastMsg" [duration]="3000"
+            (didDismiss)="setOpenToast(false)" position="bottom" [icon]="toastIcon"></ion-toast>
 </ion-content>
