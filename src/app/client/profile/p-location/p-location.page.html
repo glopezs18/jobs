@@ -9,27 +9,71 @@
 
 <ion-content [fullscreen]="true">  
   <ion-list [inset]="true">
-    <ion-item [button]="true" backdropDismiss="false" detailIcon="ellipsis-vertical" (click)="presentActionSheet('dir1', 'Av. Petapa 2301')">
+    <ion-item *ngFor="let item of locations;"  [button]="true" backdropDismiss="false" detailIcon="ellipsis-vertical" (click)="presentActionSheet(item)">
       <div class="unread-indicator-wrapper" slot="start">
         <div class="unread-indicator"></div>
       </div>
       <ion-label>
         <ion-icon slot="start" name="location-outline"></ion-icon>
-        <strong>Trabajo</strong><br />
-        <ion-text>Av. Petapa 2301, Código Digital</ion-text><br />
+        <strong>{{ item.name }}</strong><br />
+        <ion-text>{{ item.address }}</ion-text><br />
         <ion-note color="medium" class="ion-text-wrap">
-          23-01 a la par de un banco G&T
+          {{ item.description }}
         </ion-note>
       </ion-label>
     </ion-item>
-    <ion-item [button]="true" backdropDismiss="false" detailIcon="ellipsis-vertical" (click)="presentActionSheet('dir2', 'Calz. San Juan')">
-      <div class="unread-indicator-wrapper" slot="start"></div>
-      <ion-label>
-        <ion-icon slot="start" name="location-outline"></ion-icon>
-        <strong>Casa</strong><br />
-        <ion-text>Calz. San Juan, Apto 9</ion-text><br />
-        <ion-note color="medium" class="ion-text-wrap">10ma. Avenida 1 calle 10-32 Zona 4 de Mixco</ion-note>
-      </ion-label>
-    </ion-item>
   </ion-list>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button (click)="setOpenModal(true, null)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal [isOpen]="isModalOpen" #modal_location>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>{{ isUpdate ? 'Actualizar ubicación' : 'Agregar dirección'}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm(id_location)" [strong]="true">{{ isUpdate ? 'Actualizar' : 'Agregar'}}</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nombre de dirección"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Ej. Casa, trabajo, otro, etc."
+            [(ngModel)]="name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Dirección"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Ej. Avenida Elena 1-12 etc."
+            [(ngModel)]="address"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Indicaciones"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Podrías darnos alguna indicación"
+            [(ngModel)]="description"
+          ></ion-input>
+        </ion-item>
+        <ion-toast [isOpen]="isToastOpen" [message]="toastMsg" [duration]="3000"
+            (didDismiss)="setOpenToast(false)" position="bottom" [icon]="toastIcon"></ion-toast>
+      </ion-content>      
+    </ng-template>
+  </ion-modal>
 </ion-content>

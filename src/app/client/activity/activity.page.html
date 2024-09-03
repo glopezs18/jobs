@@ -6,26 +6,28 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <!-- <h5>Recientes</h5> -->
-  <ion-list *ngIf="loaded">
+  <ion-list *ngIf="!loaded">
     <ion-list-header>Recientes</ion-list-header>
 
-    <ion-item *ngFor="let item of recent_activity;" [routerLink]="'a-detail/' + item.id" button detail class="ion-margin-top">
+    <ion-item *ngFor="let item of current_worker_join_services;" [routerLink]="'a-detail/' + item.id" button detail class="ion-margin-top">
       <ion-thumbnail slot="start">
-        <ion-icon style="width: 80%; height: 80%" name="{{ item.icon }}"></ion-icon>
+        <!-- <ion-icon style="width: 80%; height: 80%" name="{{ item.category_image }}"></ion-icon> -->
+        <img alt="Silhouette of mountains" style="width: 80%; height: 80%; border-radius: 14px;" src="{{ item.category_image }}" />
       </ion-thumbnail>
       <ion-label>
-        <h3>{{ item.activity }}</h3>
-        <p>{{ item.date }}</p>
-        <p>{{ item.cost }}</p>
+        <h3>{{ item.title }}</h3>
+        <ion-badge color="{{ get_state_color(item.status) }}">{{ get_state_name(item.status) }}</ion-badge>
+        <p>{{ item.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a'}}</p>        
+        <p>GTQ{{ item.cost }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
   
-  <ion-list *ngIf="!loaded">
+  <ion-list *ngIf="loaded">
     <ion-list-header>
       <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
     </ion-list-header>
-    <ion-item *ngFor="let item of recent_activity;" class="ion-margin-top">
+    <ion-item *ngFor="let item of current_worker_join_services;" class="ion-margin-top">
       <ion-thumbnail slot="start">
         <ion-skeleton-text [animated]="true"></ion-skeleton-text>
       </ion-thumbnail>
@@ -33,6 +35,9 @@
         <h3>
           <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
         </h3>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+        </p>
         <p>
           <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
         </p>

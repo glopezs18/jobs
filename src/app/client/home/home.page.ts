@@ -37,9 +37,10 @@ import { RestService } from '../../services/rest.service'
   imports: [RouterModule, CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonSearchbar, IonCol, IonRow, IonGrid, IonImg, IonItem, IonButton, IonLabel, IonThumbnail, IonSkeletonText, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonSegment, IonSegmentButton, IonButtons]
 })
 export class HomePage implements OnInit {
-  public loaded = false;
+  public loaded = true;
 
   worker_categories: any[] = [];
+  result_search: any[] = []
   // items: any[] = [];
 
   jobs_categories = [
@@ -88,18 +89,25 @@ export class HomePage implements OnInit {
     private restService: RestService
   ) { }
 
-  ngOnInit() {        
-    if (this.jobs_categories.length > 0) {
-      this.loaded = true;
-    }    
-    this.get_worker_categories();
-    
+  ngOnInit() {              
+    this.get_worker_categories();      
   }
 
   async get_worker_categories() {
-    this.worker_categories = await this.restService.get_worker_categories();
-        
+    this.worker_categories = await this.restService.get_worker_categories();    
+    this.result_search = [...this.worker_categories];
+    setTimeout(() => {
+      if (this.worker_categories.length > 0) {
+        this.loaded = false;
+      }  
+    }, 1500);
+    
     // console.log("this.worker_categories", this.worker_categories);
+  }
+
+  search_category(event: any) {
+    const query = event.target.value.toLowerCase(); 
+    this.result_search = this.worker_categories.filter((d) => d.name.toLowerCase().indexOf(query) > -1);    
   }
    
 }

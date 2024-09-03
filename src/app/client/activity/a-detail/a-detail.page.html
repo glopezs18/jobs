@@ -24,8 +24,9 @@
     <ion-col size="12" class="ion-text-left">
       <ion-item lines="none">
         <ion-label>
-          <h3 class="activity-title">Instalación de cableado {{ current_activity_id }}</h3>
-          <ion-badge color="secondary">Completado</ion-badge>
+          <h3 class="activity-title">{{ current_client_activity?.title }}</h3>
+          <!-- <ion-badge color="secondary">Completado</ion-badge> -->
+          <ion-badge color="{{ get_state_color(current_client_activity?.status) }}">{{ get_state_name(current_client_activity?.status) }}</ion-badge>
         </ion-label> 
       </ion-item>
     </ion-col>   
@@ -34,17 +35,17 @@
   <ion-row>
     <ion-item>
       <ion-thumbnail slot="start">
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+        <img alt="Silhouette of mountains" src="{{ current_client_activity?.worker_picture }}" />
       </ion-thumbnail>
-      <ion-label>Jorge Emanuel</ion-label>
+      <ion-label>{{ current_client_activity?.worker_name }}</ion-label>
     </ion-item>
   </ion-row>
   <ion-row class="ion-padding-start">    
     <ion-col size="12" class="ion-margin-top">
-      <ion-text class="acitivty-text">12 de agosto de 2024, 12:00PM</ion-text>
+      <ion-text class="acitivty-text">{{ current_client_activity?.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</ion-text>
     </ion-col>
     <ion-col size="12">
-      <ion-text class="acitivty-text">GTQ500.00</ion-text>    
+      <ion-text class="acitivty-text">GTQ{{ current_client_activity?.cost }}</ion-text>    
     </ion-col>
   </ion-row>
 
@@ -58,7 +59,7 @@
             </h5>
             <p>              
               <ion-icon slot="start" name="location-outline"></ion-icon>
-              1 calle 10-32 zona 4 de mixco
+              {{ current_client_activity?.location }}
             </p>
           </ion-label>
         </ion-item>
@@ -68,7 +69,7 @@
               Descripción
             </h5>
             <p>
-              Servicio de instalación de cableado eléctrico
+              {{ current_client_activity?.detail }}
             </p>
           </ion-label>          
         </ion-item>

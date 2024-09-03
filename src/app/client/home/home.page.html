@@ -3,7 +3,7 @@
     <ion-title>Inicio</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar placeholder="Buscar"></ion-searchbar>
+    <ion-searchbar [debounce]="500" (ionInput)="search_category($event)" placeholder="Buscar"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -35,8 +35,8 @@
     </ion-col>       
   </ion-row>
 
-  <ion-row *ngIf="loaded">
-    <ion-col size="4" *ngFor="let item of worker_categories;">
+  <ion-row *ngIf="!loaded">
+    <ion-col size="4" *ngFor="let item of result_search;">
       <ion-item [routerLink]="'h-categorie-single/' + item.id" button lines="none" detail="false">          
         <ion-label>
           <ion-thumbnail class="ion-margin-bottom home-categorie-item">
@@ -50,8 +50,8 @@
     </ion-col>
   </ion-row>  
 
-  <ion-row *ngIf="!loaded">
-    <ion-col size="4" *ngFor="let item of jobs_categories;">
+  <ion-row *ngIf="loaded">
+    <ion-col size="4" *ngFor="let item of worker_categories;">
       <ion-item lines="none" detail="false">          
         <ion-label>
           <ion-thumbnail class="ion-margin-bottom">

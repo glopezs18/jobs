@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
-import { getFirestore, DocumentData, Firestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where, updateDoc, addDoc } from 'firebase/firestore';
+import { getFirestore, DocumentData, Firestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
 
 // Inicializa Firebase
 const firebaseApp = initializeApp(environment.firebase);
@@ -16,7 +16,10 @@ const auth = getAuth(firebaseApp);
 })
 export class RestService {
 
-  constructor() { }
+  private clientLocationCollection: CollectionReference;
+  constructor() { 
+    this.clientLocationCollection = collection(firestore, 'client_location');
+  }
 
   //Categories
   async get_worker_categories() {
@@ -38,7 +41,7 @@ export class RestService {
 
   async get_worker_by_idcategorie(_wcId: string): Promise<any[]> {
     // Crear referencia al documento de la categoría
-    const categoryRef = doc(firestore, `worker_category/${_wcId}`);
+    const categoryRef = doc(firestore, `worker_category/${_wcId}`);    
     // Referencia a la colección de trabajadores
     const workersRef = collection(firestore, 'worker');
     // Consulta donde 'worker_category' coincide con la referencia de categoría
@@ -64,4 +67,82 @@ export class RestService {
       throw new Error('Documento no encontrado');
     }
   }
+
+  //Activities Client
+  async get_worker_activity_service_by_idclient(_wjsId: string): Promise<any[]> {
+    // Crear referencia al documento de la actividad
+    const clientRef = doc(firestore, `client/${_wjsId}`);
+    // Referencia a la colección de trabajadores
+    const workerJoinServiceRef = collection(firestore, 'worker_join_service');
+    // Consulta donde 'worker_category' coincide con la referencia de categoría
+    const q = query(workerJoinServiceRef, where('client_id', '==', clientRef));
+    // Ejecutar la consulta
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  }
+
+  async get_worker_activity_service_by_id(_wjsId: string): Promise<any[]> {
+    const workerJoinServiceDoc = doc(firestore, `worker_join_service/${_wjsId}`);
+    const workerJoinServiceSnapshot = await getDoc(workerJoinServiceDoc);
+    if (workerJoinServiceSnapshot.exists()) {
+      return [{ id: workerJoinServiceSnapshot.id, ...workerJoinServiceSnapshot.data() }];
+    } else {
+      // Manejar el caso en que el documento no existe
+      throw new Error('Documento no encontrado');
+    }
+  }
+
+  //Locations Client
+  async get_client_locations(_client_id: string) {
+    const clientRef = doc(firestore, `client/${_client_id}`);
+    const profileLocationRef = collection(firestore, 'client_location');
+
+    const q = query(profileLocationRef, where('client_id', '==', clientRef));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    // return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
+
+  async get_client_location_by_id(_location_id: string): Promise<any[]> {
+    const clientLocationDoc = doc(firestore, `client_location/${_location_id}`);
+    const clientLocationSnapshot = await getDoc(clientLocationDoc);
+    if (clientLocationSnapshot.exists()) {
+      return [{ id: clientLocationSnapshot.id, ...clientLocationSnapshot.data() }];
+    } else {
+      // Manejar el caso en que el documento no existe
+      throw new Error('Documento no encontrado');
+    }
+  }
+
+  async create_client_location(_location: any, _client_id: any): Promise<any> {
+    // const clientLocation = collection(firestore, 'client_location');
+    try {
+      const clientRef = doc(firestore, `client/${_client_id}`);
+      // Agregar la referencia al campo client_id
+      _location.client_id = clientRef;
+
+
+      return await addDoc(this.clientLocationCollection, _location);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      return null;
+    }
+  }
+
+  async update_client_location(_location_id: string, _updated_data: any) {
+    const locationDoc = doc(firestore, `client_location/${_location_id}`);
+    try {
+      return await updateDoc(locationDoc, _updated_data);
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  }
+
 }
