@@ -77,8 +77,8 @@ export class PLocationPage implements OnInit {
           text: 'Eliminar dirección',
           icon: 'trash-outline',
           role: 'destructive',
-          handler: () => {
-            console.log('Delete location clicked ' + _item.id);
+          handler: () => {            
+            this.deleteLocation(_item.id);
           }
         }
       ]
@@ -142,18 +142,33 @@ export class PLocationPage implements OnInit {
     };
 
     const locationId = this.id_location;
-    console.log("location_data", location_data);
-    console.log("locationId", locationId);
+
+    try {
+      await this.restService.update_client_location(locationId, location_data, this.current_client_id);   
+      this.get_client_locations(localStorage.getItem('userID'));
+      this.modal_location.dismiss(null, 'confirm');
+      this.toastMsg = "Ubicación actualizada correctamente!";
+      this.toastIcon = "checkmark-circle";
+      this.reset_form();
+      this.setOpenToast(true);
+    } catch(error) {
+      console.error("Error adding location:", error);
+      this.toastIcon = "close-circle";
+      this.toastMsg = "Hubo un problema al actualizar la ubicación. Inténtalo de nuevo más tarde.";
+      this.setOpenToast(true);
+    }
     
+  }
+
+  async deleteLocation(_location_id: string) {
+    await this.restService.deleteClientLocation(_location_id);
+    this.get_client_locations(localStorage.getItem('userID')); // Refresca la lista
   }
   
 
   cancel() {
     this.reset_form();
     this.modal_location.dismiss(null, 'cancel');
-    this.isModalOpen = false;
-    this.isUpdate = false;
-    this.id_location = '';
   }
 
   confirm(_id_location: any) {    
@@ -163,7 +178,7 @@ export class PLocationPage implements OnInit {
     console.log(_id_location);   
     if((this.name != undefined && this.name != '') && (this.address !== undefined && this.address != '') && (this.description !== undefined && this.description != '')){
       
-      if (_id_location == undefined && _id_location == '') {
+      if (_id_location == undefined || _id_location == '') {
         this.create_client_location();                  
       } else {
         this.update_client_location();
@@ -201,6 +216,9 @@ export class PLocationPage implements OnInit {
   }
 
   reset_form() {
+    this.isModalOpen = false;
+    this.isUpdate = false;
+    this.id_location = '';
     this.name = '';
     this.address = '';
     this.description = '';

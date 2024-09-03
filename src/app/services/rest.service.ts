@@ -136,12 +136,26 @@ export class RestService {
     }
   }
 
-  async update_client_location(_location_id: string, _updated_data: any) {
+  async update_client_location(_location_id: string, _updated_data: any, _client_id: any) {
+    const clientRef = doc(firestore, `client/${_client_id}`);
+
+    _updated_data.client_id = clientRef;
+
     const locationDoc = doc(firestore, `client_location/${_location_id}`);
+
     try {
       return await updateDoc(locationDoc, _updated_data);
     } catch (e) {
       console.error("Error updating document: ", e);
+    }
+  }
+
+  async deleteClientLocation(locationId: string) {
+    const locationDoc = doc(firestore, `client_location/${locationId}`);
+    try {
+      return await deleteDoc(locationDoc);
+    } catch (e) {
+      console.error("Error deleting document: ", e);
     }
   }
 
