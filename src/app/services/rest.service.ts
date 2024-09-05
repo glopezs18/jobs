@@ -96,6 +96,16 @@ export class RestService {
     }
   }
 
+  async update_worker_activity_service(_updated_data: any, _wasId: string) {
+    const workerActivityServiceDoc = doc(firestore, `worker_join_service/${_wasId}`);
+
+    try {
+      return await updateDoc(workerActivityServiceDoc, _updated_data);
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  }
+  
   //Locations Client
   async get_client_locations(_client_id: string) {
     const clientRef = doc(firestore, `client/${_client_id}`);

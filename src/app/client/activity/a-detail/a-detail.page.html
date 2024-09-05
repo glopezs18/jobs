@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button text="Regresar" defaultHref="client/profile"></ion-back-button>
+      <ion-back-button text="Regresar" defaultHref="client/activity"></ion-back-button>
     </ion-buttons>
     <ion-title>Detalles de actividad</ion-title>
   </ion-toolbar>
@@ -26,7 +26,7 @@
         <ion-label>
           <h3 class="activity-title">{{ current_client_activity?.title }}</h3>
           <!-- <ion-badge color="secondary">Completado</ion-badge> -->
-          <ion-badge color="{{ get_state_color(current_client_activity?.status) }}">{{ get_state_name(current_client_activity?.status) }}</ion-badge>
+          <ion-badge (click)="presentActionSheet(current_client_activity)" color="{{ get_state_color(current_client_activity?.status) }}">{{ get_state_name(current_client_activity?.status) }}</ion-badge>
         </ion-label> 
       </ion-item>
     </ion-col>   

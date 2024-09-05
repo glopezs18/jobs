@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonListHeader, IonThumbnail, IonIcon, IonLabel, IonSkeletonText, IonButton, IonBadge } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonListHeader, IonThumbnail, IonIcon, IonLabel, IonSkeletonText, IonButton, IonBadge, IonItemSliding, IonItemOptions, IonItemOption, IonAlert, AlertController } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
 import { musicalNotes, pizza, school, storefront, hammerOutline, libraryOutline, pawOutline, constructOutline } from 'ionicons/icons';
-import {RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { StaticElement } from '../../services/static.element';
 import { RestService } from '../../services/rest.service';
@@ -14,58 +14,26 @@ import { RestService } from '../../services/rest.service';
   templateUrl: './activity.page.html',
   styleUrls: ['./activity.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonItem, IonListHeader, IonThumbnail, IonIcon, IonLabel, IonSkeletonText, IonButton, IonBadge]
+  imports: [CommonModule, RouterModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonItem, IonListHeader, IonThumbnail, IonIcon, IonLabel, IonSkeletonText, IonButton, IonBadge, IonItemSliding, IonItemOptions, IonItemOption, IonAlert]
 })
 export class ActivityPage implements OnInit {
   public loaded = true;
   state: Array<any> = [];
+  // @ViewChild(IonItemSliding) slide_item: IonItemSliding;
 
   current_worker_join_services: any[] = [];
 
-  recent_activity = [
-    {
-      id: 'a1',
-      activity: 'Instalación de cableado',
-      date: '27 jul . 10:52pm',
-      cost: 'GTQ500.08',
-      state: 0,
-      icon: 'hammer-outline'
-    },
-    {
-      id: 'a2',
-      activity: 'Clases de refuerzo',
-      date: '27 jul . 7:52pm',
-      cost: 'GTQ40.37',
-      state: 1,
-      icon: 'library-outline'
-    },
-    {
-      id: 'a3',
-      activity: 'Consulta de veterinario',
-      date: '6 jul . 6:28pm',
-      cost: 'GTQ41.92',
-      state: 2,
-      icon: 'paw-outline'
-    },
-    {
-      id: 'a4',
-      activity: 'Reparación de puerta',
-      date: '16 jun . 6:23pm',
-      cost: 'GTQ350.00',
-      state: 3,
-      icon: 'construct-outline'
-    }
-  ]
-
   constructor(
-    private restService: RestService
+    private restService: RestService,
+    public alertCtrl: AlertController
   ) {
-    addIcons({ musicalNotes, pizza, school, storefront, hammerOutline, libraryOutline, pawOutline, constructOutline });
-   }
+    addIcons({});
+  }
 
-  ngOnInit() {          
+  ngOnInit() {
     this.init_static();
     this.get_worker_activity_service_by_idclient(localStorage.getItem('userID'));
+
     setTimeout(() => {
       if (this.current_worker_join_services.length > 0) {
         this.loaded = false;
@@ -84,17 +52,70 @@ export class ActivityPage implements OnInit {
     return this.state.find(obj => obj.id == _id)?.color;
   };
 
-  async get_worker_activity_service_by_idclient(_wc_id: any) {       
-    
+  async get_worker_activity_service_by_idclient(_wc_id: any) {
+
     try {
       const data = await this.restService.get_worker_activity_service_by_idclient(_wc_id);
+      for (let index = 0; index < data.length; index++) {
+        data[index].show_buttons = this.active_buttons(data[index].date_services);
+      }
       this.current_worker_join_services = data;
       console.log("current_worker_join_services", this.current_worker_join_services);
-      
-    } catch(error) {
+
+    } catch (error) {
       console.error("Error fetching category by ID:", error);
     }
-    
+
   }
 
+  async update_worker_activity_service(_item: any, _status: any, _index: any) {
+    console.log("status", _status);
+    console.log("current_client_activity old " + _index, this.current_worker_join_services[_index]);
+    this.current_worker_join_services[_index].status = _status;
+    console.log("current_client_activity new " + _index, this.current_worker_join_services[_index]);
+
+    try {
+      await this.restService.update_worker_activity_service(this.current_worker_join_services[_index], _item.id);            
+
+    } catch (error) {
+      console.error("Error fetching category by ID:", error);
+    }
+  }
+
+  async showMessage(_header: any, _item: any, _state: any, _index: number, _slide_item: any) {
+    let alert = await this.alertCtrl.create(
+      {
+        header: _header,        
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'OK',
+            role: 'confirm',
+            handler: () => {
+              console.log("_item", _item)
+              // console.log("slide_item", this.slide_item)
+              console.log("_slide_item", _slide_item)              
+              this.update_worker_activity_service(_item, _state, _index);
+              _slide_item.close();         
+            }
+          }
+        ]
+      });
+    await alert.present();
+  }
+
+  convertTimestampToDate(firebaseTimestamp: any): string {
+    const date = new Date(firebaseTimestamp.seconds * 1000); // Convertir segundos a milisegundos
+    return date.toISOString().substring(0, 10); // Formato YYYY-MM-DD
+  }
+
+  active_buttons(_date_services: any): boolean {
+    let date_service = new Date(this.convertTimestampToDate(_date_services));
+    let today = new Date();
+
+    return today < date_service;
+  }
 }

@@ -48,3 +48,15 @@ ion-label {
         font-weight: bold;
     }
 }
+
+.disable-action-sheet-btns {
+    cursor: not-allowed;
+    background-color: rgb(229, 229, 229) !important;
+    > * { pointer-events: none; }
+}
+
+
+ion-badge {
+    border-radius: 5px;
+    padding: 6px 5px;
+}
