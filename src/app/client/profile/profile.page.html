@@ -7,7 +7,10 @@
 <ion-content [fullscreen]="true" color="light" class="profile-content on-padding">      
     <ion-row class="profile-content-info">
       <ion-col size="4" col-2 text-center>
-        <ion-icon id="open-action-sheet" backdropDismiss="false" name="person-circle"></ion-icon>        
+        <ion-avatar id="open-action-sheet" backdropDismiss="false">
+          <img src="{{ data_profile }}" />
+        </ion-avatar>
+        <!-- <ion-icon id="open-action-sheet" backdropDismiss="false" name="person-circle"></ion-icon>         -->
         <ion-action-sheet trigger="open-action-sheet" header="Edición de foto"
           [buttons]="actionSheetButtons"></ion-action-sheet>
       </ion-col>
@@ -51,6 +54,5 @@
           </ion-item>
         </ion-list>
       </ion-col>
-    </ion-row>
-  <!-- <app-explore-container name="Perfil"></app-explore-container> -->
+    </ion-row>  
 </ion-content>

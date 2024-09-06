@@ -1,10 +1,12 @@
 .profile-content {
     &-info {
         padding-top: 15px;
-        ion-icon {
+        ion-avatar {
             margin: 0 auto;
             display: block;
-            font-size: 60px;
+            width: 70px;
+            height: 70px;
+            // font-size: 60px;
             color: #8c8c8c;
         }
 
