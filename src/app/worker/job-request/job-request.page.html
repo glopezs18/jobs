@@ -11,13 +11,19 @@
       <ion-label>Solicitudes Recibidas</ion-label>
     </ion-item-divider>
 
-    <!-- <ion-item *ngFor="let request of jobRequests" [routerLink]="'j-r-detail/' + request.id"> -->
-    <ion-item *ngFor="let request of jobRequests" (click)="viewRequestDetails(request)">
+    <ion-item *ngFor="let request of current_worker_join_services" button [routerLink]="'j-r-detail/' + request.id">
+    
       <ion-label>
-        <h2>{{ request.client }}</h2>
-        <p>{{ request.service }}</p>
-        <p>{{ request.date | date:'short' }}</p>
-        <ion-badge color="{{ getBadgeColor(request.status) }}">{{ request.status }}</ion-badge>
+        <h2>{{ request.client_name }}</h2>
+        <p>{{ request.category }}</p>
+        <p>{{ request.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</p>        
+        <ion-badge color="{{ get_state_color(request.status) }}">{{ get_state_name(request.status) }}</ion-badge>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="current_worker_join_services.length == 0">
+      <ion-label>
+        <p>En este momento no hay solicitudes.</p>
       </ion-label>
     </ion-item>
   </ion-list>

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "334722253346",
+    "firebase_url": "https://pgjobs-92ad6-default-rtdb.firebaseio.com",
+    "project_id": "pgjobs-92ad6",
+    "storage_bucket": "pgjobs-92ad6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334722253346:android:a865ee1697435a4106807b",
+        "android_client_info": {
+          "package_name": "ionic.jobs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIE6HestH1QFnf3wvsaDCLaef2Q7-Cllo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

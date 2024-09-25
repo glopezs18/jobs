@@ -16,6 +16,9 @@ import {
   IonBadge
 } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
+import { addIcons } from "ionicons";
+import { StaticElement } from '../../../../services/static.element';
+import { RestWorkerService } from '../../../../services/rest.worker.service';
 
 @Component({
   selector: 'app-j-r-h-detail',
@@ -42,28 +45,42 @@ import { ActivatedRoute } from '@angular/router';
 export class JRHDetailPage implements OnInit {
 
   job: any;
+  current_activity_id: any = null;
+  current_worker_activity: any = null;
+  state: Array<any> = [];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private restService: RestWorkerService,) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params: any) => {
-      if (params && params.job) {
-        this.job = JSON.parse(params.job);
-      }
-    });
+    this.current_activity_id = this.route.snapshot.paramMap.get("id");
+    console.log(this.current_activity_id);
+
+    this.init_static();
+    this.get_worker_activity_service_by_id(this.current_activity_id);
   }
 
-  getBadgeColor(status: string): string {
-    switch (status) {
-      case 'Completado':
-        return 'success';
-      case 'Cancelado':
-        return 'danger';
-      case 'Pendiente':
-        return 'warning';
-      default:
-        return 'medium'; // Color gris por defecto para otros estados
+  async get_worker_activity_service_by_id(_wc_id: any) {
+
+    try {
+      const data = await this.restService.get_worker_activity_service_by_id(_wc_id);      
+      this.current_worker_activity = data[0];
+      // console.log("current_worker_activity", this.current_worker_activity);
+
+    } catch (error) {
+      console.error("Error fetching category by ID:", error);
     }
+
   }
+
+  init_static() {
+    this.state = StaticElement.state_activity;
+  }
+
+  get_state_name(_id: any): object {
+    return this.state.find(obj => obj.id == _id)?.name;
+  };
+  get_state_color(_id: any): object {
+    return this.state.find(obj => obj.id == _id)?.color;
+  };
 
 }

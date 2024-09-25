@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ConversationService } from '../../../services/conversation.service';
 import { Conversation } from '../../../models/conversation.model';
 import { addIcons } from 'ionicons';
-import { send } from 'ionicons/icons';
+import { send, settingsOutline } from 'ionicons/icons';
+import { ChatService } from '../../../services/chat.service';
 
 @Component({
   selector: 'app-c-l-detail',
@@ -16,53 +17,53 @@ import { send } from 'ionicons/icons';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonNote, IonFooter, IonInput, IonButton, IonIcon]
 })
 export class CLDetailPage implements OnInit {
-  conversation: Conversation;
-  messages: { text: string; sender: string; timestamp: Date }[] = [];
+
+  workerId: any = null;  // ID del trabajador
+  client_id = localStorage.getItem("userID");  // ID del cliente con quien estás chateando
+  current_chat_id: any = null;
+  current_chat_data: any[] = [];
+  messages: any[] = [];
   newMessage: string = '';
+
+  conversation: Conversation;
   constructor(
-    private route: ActivatedRoute,
-    private conversationService: ConversationService
+    private route: ActivatedRoute, private chatService: ChatService
   ) { 
-    addIcons({ send });
+    addIcons({ send, settingsOutline });
   }
 
   ngOnInit() {
-    const conversationId = this.route.snapshot.paramMap.get('id');
-
-    if (conversationId) {
-      const conversation = this.conversationService.getConversationById(conversationId);
-
-      if (conversation) {
-        this.conversation = conversation;
-        this.messages = [
-          { text: 'Hey, how are you?', sender: this.conversation.title, timestamp: new Date() },
-          { text: 'I am good, thanks! And you?', sender: 'Me', timestamp: new Date() },
-          { text: 'See you tomorrow', sender: this.conversation.title, timestamp: new Date() },
-          { text: 'Ok, thank you!', sender: 'Me', timestamp: new Date() },
-        ];
-      } else {
-        console.error('Conversation not found');
-        // Aquí puedes redirigir al usuario a una página de error o mostrar un mensaje
-      }
-    } else {
-      console.error('No conversation ID provided');
-      // Maneja el caso en que no se proporciona un ID
-    }  
+    this.current_chat_id = this.route.snapshot.paramMap.get("id");
+    this.getChatData(this.current_chat_id);
 }
 
-sendMessage() {
-  if (this.newMessage.trim() === '') {
-    return;
+async getChatData(chatId: any){
+  try {
+    const data = await this.chatService.getChatData(chatId);      
+    this.current_chat_data = data;
+    this.workerId = this.current_chat_data[0].workerId;
+
+    this.chatService.createOrGetChat(this.client_id, this.workerId).then(chatId => {
+      this.chatService.listenToChatMessages(chatId, (messages: any) => {
+        this.messages = messages;
+        console.log("this.messages", messages);
+        
+      });
+    });
+    console.log("data", this.current_chat_data);
+    // console.log("current_categorie", this.current_client_activity);
+    
+  } catch(error) {
+    console.error("Error fetching chat by ID:", error);
   }
+}
 
-  this.messages.push({
-    text: this.newMessage,
-    sender: 'Me',
-    timestamp: new Date()
-  });
-
-  // Lógica para enviar el mensaje al servidor, si aplica
-  this.newMessage = '';
+async sendMessage() {
+  if (this.newMessage.trim()) {
+    // Añadir el mensaje al chat
+    await this.chatService.startChatAndSendMessage(this.client_id, this.workerId, this.newMessage, true);
+    this.newMessage = ''; // Limpiar el input
+  }
 }
 
 }

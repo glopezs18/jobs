@@ -11,9 +11,9 @@ export const routes: Routes = [
         loadComponent: () => import('./home/home.page').then( m => m.HomePage)
       },
       {
-        path: 'tab2',
+        path: 'calendar',
         loadComponent: () =>
-          import('../worker/tab2/tab2.page').then((m) => m.Tab2Page),
+          import('../worker/calendar/calendar.page').then((m) => m.CalendarPage),
       },
       {
         path: 'services-list',
@@ -40,7 +40,7 @@ export const routes: Routes = [
     loadComponent: () => import('./profile/p-settings/p-settings.page').then( m => m.PSettingsPage)
   },
   {
-    path: 'job-request/j-r-detail',
+    path: 'job-request/j-r-detail/:id',
     loadComponent: () => import('./job-request/j-r-detail/j-r-detail.page').then( m => m.JRDetailPage)
   },
   {
@@ -48,7 +48,7 @@ export const routes: Routes = [
     loadComponent: () => import('./job-request/j-r-history/j-r-history.page').then( m => m.JRHistoryPage)
   },
   {
-    path: 'job-request/j-r-history/j-r-h-detail',
+    path: 'job-request/j-r-history/j-r-h-detail/:id',
     loadComponent: () => import('./job-request/j-r-history/j-r-h-detail/j-r-h-detail.page').then( m => m.JRHDetailPage)
   },
   {
@@ -56,9 +56,9 @@ export const routes: Routes = [
     loadComponent: () => import('./job-request/j-r-chat-list/j-r-chat-list.page').then( m => m.JRChatListPage)
   },
   {
-    path: 'job-request/j-r-chat-list/j-r-chat-detail',
+    path: 'job-request/j-r-chat-list/j-r-chat-detail/:id',
     loadComponent: () => import('./job-request/j-r-chat-list/j-r-chat-detail/j-r-chat-detail.page').then( m => m.JRChatDetailPage)
-  }
+  },
   // {
   //   path: 'services-list',
   //   loadComponent: () => import('./services-list/services-list.page').then( m => m.ServicesListPage)

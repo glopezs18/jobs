@@ -12,9 +12,12 @@ import {
   IonLabel,
   IonBadge,
   IonButtons,
-  IonBackButton
+  IonBackButton,
+  IonNote
 } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
+import { ChatService } from '../../../services/chat.service';
+import { Router } from '@angular/router';
 
 interface Chat {
   id: number;
@@ -42,37 +45,40 @@ interface Chat {
     IonLabel,
     IonBadge,
     IonButtons,
-    IonBackButton
+    IonBackButton,
+    IonNote
   ]
 })
 export class JRChatListPage implements OnInit {
+  userId = localStorage.getItem("userID");  // ID del usuario actual (cliente o trabajador)
+  chats: any[] = [];
+  isClient = false; 
 
-  chatList: Chat[] = [
-    {
-      id: 1,
-      clientName: 'Juan Pérez',
-      clientAvatar: 'https://cdn-icons-png.flaticon.com/512/5951/5951752.png',
-      lastMessage: 'Hola, estoy interesado en tu servicio...',
-      unreadCount: 2,
-    },
-    {
-      id: 2,
-      clientName: 'María López',
-      clientAvatar: 'https://cdn-icons-png.flaticon.com/512/5951/5951752.png',
-      lastMessage: '¿Puedes hacer el trabajo el viernes?',
-      unreadCount: 0,
-    },
-    // Más chats...
-  ];
 
-  constructor(private navCtrl: NavController) { }
+  constructor(private navCtrl: NavController, private router: Router, private chatService: ChatService) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.loadChats(this.userId, this.isClient);
+  }
 
-  openChat(chat: Chat) {
-    this.navCtrl.navigateForward(`worker/job-request/j-r-chat-list/j-r-chat-detail`, {
-      queryParams: { chatId: chat.id }
-    });
+  async loadChats(userId: any, isClient: boolean) {
+    try {
+      this.chats = await this.chatService.getChatsWithLastMessage(userId, isClient);
+      console.log('Chats:', this.chats);
+      
+    } catch (error) {
+      console.error('Error obteniendo chats:', error);
+    }
+  }
+
+  openChat(chatId: Chat) {
+    console.log("hola", chatId);
+    
+    this.chatService.markAsRead(chatId, this.isClient);
+    this.router.navigate(['/worker/job-request/j-r-chat-list/j-r-chat-detail', chatId]);
+    // this.navCtrl.navigateForward(`worker/job-request/j-r-chat-list/j-r-chat-detail`, {
+    //   queryParams: { chatId: chat.id }
+    // });
   }
 
 }

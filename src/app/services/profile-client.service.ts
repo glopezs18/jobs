@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, Firestore, doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, Storage, uploadBytesResumable } from '@angular/fire/storage';
 
+
 // Inicializa Firebase
 const firebaseApp = initializeApp(environment.firebase);
 const firestore = getFirestore(firebaseApp);
@@ -13,7 +14,7 @@ const firestore = getFirestore(firebaseApp);
 })
 
 export class ProfileService {
-
+        
     constructor(        
         private storage: Storage
     ) { }
@@ -50,10 +51,10 @@ export class ProfileService {
 
     // Guardar la URL de la imagen en el documento del usuario
     async updateUserProfilePicture(userId: string, imageUrl: string): Promise<void> {
-        const userDocRef = doc(firestore, `users/${userId}`);
+        const userDocRef = doc(firestore, `client/${userId}`);
         try {
             await updateDoc(userDocRef, {
-                profilePicture: imageUrl
+                picture_profile: imageUrl
             });
         } catch (error) {
             console.error("Error updating user profile picture: ", error);

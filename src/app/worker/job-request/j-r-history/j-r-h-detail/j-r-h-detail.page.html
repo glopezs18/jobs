@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="worker/job-request/j-r-history"></ion-back-button>
+      <ion-back-button text="Regresar" defaultHref="worker/job-request/j-r-history"></ion-back-button>
     </ion-buttons>
     <ion-title>Detalle del Trabajo</ion-title>
   </ion-toolbar>
@@ -10,16 +10,16 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{ job.serviceName }}</ion-card-title>
-      <ion-card-subtitle>{{ job.clientName }}</ion-card-subtitle>
+      <ion-card-title>{{ current_worker_activity?.title }}</ion-card-title>
+      <ion-card-subtitle>{{ current_worker_activity?.client_name }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Fecha:</strong> {{ job.date | date:'medium' }}</p>
-      <p><strong>Estado:</strong> 
-        <ion-badge [color]="getBadgeColor(job.status)">{{ job.status }}</ion-badge>
+      <p><strong>Fecha de servicio:</strong> {{ current_worker_activity?.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</p>
+      <p><strong>Estado: </strong> 
+        <ion-badge color="{{ get_state_color(current_worker_activity?.status) }}">{{ get_state_name(current_worker_activity?.status) }}</ion-badge>
       </p>
       <p><strong>Descripción:</strong></p>
-      <p>{{ job.description }}</p>
+      <p>{{ current_worker_activity?.detail }}</p>
     </ion-card-content>
   </ion-card>
 </ion-content>

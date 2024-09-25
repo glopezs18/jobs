@@ -22,6 +22,7 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { RouterModule } from '@angular/router';
 import { RestService } from '../../../services/rest.service';
+import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-h-categorie-single',
@@ -44,15 +45,27 @@ export class HCategorieSinglePage implements OnInit {
   ngOnInit() {
     this.current_categorie_id = this.route.snapshot.paramMap.get("id");
     this.get_categorie_by_id(this.current_categorie_id);
-    this.get_worker_by_idcategorie(this.current_categorie_id);
+    // this.get_worker_by_idcategorie(this.current_categorie_id);
   }
 
-  async get_worker_by_idcategorie(_wc_id: any) {       
+  // async get_worker_by_idcategorie(_wc_id: any) {       
+    
+  //   try {
+  //     const data = await this.restService.get_worker_by_idcategorie(_wc_id);
+  //     this.current_worker_categorie = data;      
+      
+  //   } catch(error) {
+  //     console.error("Error fetching category by ID:", error);
+  //   }
+    
+  // }
+
+  async get_workers_by_category(_categorie: any) {       
     
     try {
-      const data = await this.restService.get_worker_by_idcategorie(_wc_id);
+      const data = await this.restService.get_workers_by_category(_categorie);
       this.current_worker_categorie = data;
-      // console.log("get_workers_by_idcategorie", this.current_worker_categorie);
+      // console.log("get_workers_by_categorie", data);
       
     } catch(error) {
       console.error("Error fetching category by ID:", error);
@@ -65,6 +78,7 @@ export class HCategorieSinglePage implements OnInit {
     try {
       const data = await this.restService.get_categorie_by_id(_c_id);
       this.current_categorie = data[0];
+      this.get_workers_by_category(this.current_categorie.name);
       // console.log("current_categorie", this.current_categorie);
       
     } catch(error) {
@@ -76,7 +90,7 @@ export class HCategorieSinglePage implements OnInit {
   navigateToWorkerSingle(_item: any) {
     console.log(_item);
     
-    this.router.navigate(['/client/home/h-worker/' + _item.id]);
+    this.router.navigate(['/client/home/h-worker/' + this.current_categorie_id + "/" + _item.id]);
   }
 
 }

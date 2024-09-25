@@ -11,45 +11,53 @@
 
 <ion-content>
   <ion-card>
-    <ion-card-header>
-      <ion-card-title>Mi Perfil</ion-card-title>
-    </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-avatar slot="start">
-          <img [src]="profilePhotoUrl || 'https://c7.alamy.com/comp/2G104M8/electrician-avatar-man-working-with-electricity-profile-user-person-people-icon-isolated-vector-illustration-2G104M8.jpg'" />
+        <h3>Foto de perfil</h3>
+        <ion-avatar slot="end" id="open-action-sheet">
+          <img
+            [src]="data_profile || 'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'" />
         </ion-avatar>
-        <ion-button (click)="uploadPhoto()">Subir Foto</ion-button>
+        <ion-action-sheet trigger="open-action-sheet" header="Edición de foto"
+          [buttons]="actionSheetButtons"></ion-action-sheet>
       </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Nombre</ion-label>
-        <ion-input [(ngModel)]="profile.name"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Correo</ion-label>
-        <ion-input [(ngModel)]="profile.email"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Descripción</ion-label>
-        <ion-textarea [(ngModel)]="profile.description" placeholder="Describa su experiencia y habilidades"></ion-textarea>
-      </ion-item>
+      <form [formGroup]="form" #f="ngForm" autocomplete="off">
 
-      <ion-item>
-        <ion-label position="stacked">Tarifa por Servicio</ion-label>
-        <ion-input [(ngModel)]="profile.rate" placeholder="Ejemplo: $20/hora"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input formControlName="name" ></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Categorías de Servicio</ion-label>
-        <ion-select [(ngModel)]="profile.categories" multiple="true">
-          <ion-select-option *ngFor="let category of availableCategories">{{ category }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Correo</ion-label>
+          <ion-input formControlName="email"></ion-input>
+        </ion-item>
 
-      <ion-button expand="full" (click)="saveProfile()">Guardar Cambios</ion-button>
+        <ion-item>
+          <ion-label position="stacked">Descripción</ion-label>
+          <ion-textarea formControlName="about_me"
+            placeholder="Describa su experiencia y habilidades"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">DPI</ion-label>
+          <ion-input formControlName="dpi" placeholder="DPI"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Teléfono</ion-label>
+          <ion-input formControlName="phone" placeholder="Teléfono"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Categorías de Servicio</ion-label>
+          <ion-select formControlName="categories" multiple="true">
+            <ion-select-option *ngFor="let category of availableCategories">{{ category }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button expand="full" (click)="saveProfile()">Guardar Cambios</ion-button>
+      </form>
     </ion-card-content>
   </ion-card>
 
@@ -58,7 +66,7 @@
       <ion-list [inset]="true">
         <ion-item type="button" (click)="logout()">
           <ion-icon slot="start" name="log-out-outline"></ion-icon>
-          <ion-label>Cerrar sesión</ion-label>            
+          <ion-label>Cerrar sesión</ion-label>
         </ion-item>
       </ion-list>
     </ion-col>
@@ -70,4 +78,6 @@
       <ion-label>Configuración</ion-label>
     </ion-item>
   </ion-list> -->
+  <ion-toast [isOpen]="isToastOpen" [message]="toastMsg" [duration]="3000"
+            (didDismiss)="setOpenToast(false)" [color]="toastColor" position="bottom" [icon]="toastIcon"></ion-toast>
 </ion-content>

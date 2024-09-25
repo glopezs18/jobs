@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonToggle, IonLabel, IonSelect, IonSelectOption, IonButton, IonItem, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { ProfileWorkerService } from '../../../services/profile-worker.service'
+import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-p-settings',
@@ -17,8 +20,16 @@ export class PSettingsPage implements OnInit {
   emailNotifications: boolean = true;
   smsNotifications: boolean = false;
 
-  constructor(private alertController: AlertController) {}
+  currentUserId: any = localStorage.getItem('userID');
+  profile: any = null;
+
+  constructor(
+    private alertController: AlertController, 
+    private authService: AuthenticationService,
+    private profileService: ProfileWorkerService
+  ) {}
   ngOnInit() {
+    this.get_worker_profile(this.currentUserId);
   }
   async changePassword() {
     const alert = await this.alertController.create({
@@ -48,11 +59,16 @@ export class PSettingsPage implements OnInit {
         {
           text: 'Guardar',
           handler: (data) => {
-            if (data.newPassword === data.confirmPassword) {
-              this.updatePassword(data.currentPassword, data.newPassword);
+            if (data.currentPassword === this.profile.password) {
+              if (data.newPassword === data.confirmPassword) {
+                this.updatePassword(data.newPassword);
+              } else {
+                this.showAlert('Error', 'Las contraseñas no coinciden.');
+              }
             } else {
-              this.showAlert('Error', 'Las contraseñas no coinciden.');
+              this.showAlert('Error', 'La contraseña actual es incorrecta.');
             }
+            
           },
         },
       ],
@@ -61,9 +77,23 @@ export class PSettingsPage implements OnInit {
     await alert.present();
   }
 
-  updatePassword(currentPassword: string, newPassword: string) {
+  async updatePassword(_newPassword: string) {
     // Lógica para cambiar la contraseña
-    console.log('Contraseña actualizada:', currentPassword, newPassword);
+    console.log('Contraseña actualizada:', _newPassword);
+    try {
+      const newPassword = _newPassword;
+      await this.authService.reauthenticateUser(this.profile.email, this.profile.password);
+      await this.authService.changePassword(newPassword);
+      try {
+        await this.profileService.update_worker_profile({password: _newPassword}, this.currentUserId);
+      } catch (error) {
+        console.log("error", error);
+        
+      }
+      this.showAlert('Listo', 'Contraseña cambiada exitosamente');
+    } catch (error: any) {
+      this.showAlert('Error', 'Error al cambiar la contraseña: ' + error.message);      
+    }
   }
 
   async showAlert(header: string, message: string) {
@@ -74,6 +104,11 @@ export class PSettingsPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async get_worker_profile(_w_id: any) {
+    const data = await this.profileService.get_worker_profile(_w_id);
+    this.profile = data[0];    
   }
 
   toggleNotifications() {

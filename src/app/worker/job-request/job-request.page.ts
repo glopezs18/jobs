@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -19,12 +19,15 @@ import {
   IonButton,
   IonInput,
   IonIcon,
-  IonBadge  
+  IonBadge
 } from '@ionic/angular/standalone';
 import { AlertController, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { briefcaseOutline, chatbubblesOutline } from 'ionicons/icons';
 import { RouterModule } from '@angular/router';
+import { StaticElement } from '../../services/static.element';
+import { RestWorkerService } from '../../services/rest.worker.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-job-request',
@@ -55,61 +58,54 @@ import { RouterModule } from '@angular/router';
     IonBadge
   ]
 })
-export class JobRequestPage implements OnInit {
+export class JobRequestPage implements OnInit{
 
-  jobRequests = [
-    {
-      id: 1,
-      client: 'Juan Pérez',
-      service: 'Carpintería',
-      date: new Date(),
-      status: 'Pendiente',
-      description: 'Necesito reparar una puerta.',
-      address: 'Calle Falsa 123',
-      price: 50
-    },
-    {
-      id: 2,
-      client: 'María García',
-      service: 'Electricidad',
-      date: new Date(),
-      status: 'Pendiente',
-      description: 'Instalación de lámparas.',
-      address: 'Avenida Siempre Viva 742',
-      price: 75
-    }
-  ];
+  current_worker_join_services: any[] = [];
+  state: Array<any> = [];
+  solicitudesSubscription: Subscription;
 
-  constructor(private alertController: AlertController, private navCtrl: NavController) {
+  constructor(
+    private alertController: AlertController,
+    private navCtrl: NavController,
+    private restService: RestWorkerService 
+  ) {
     addIcons({ briefcaseOutline, chatbubblesOutline });
   }
 
   ngOnInit() {
-  }
-
-
-  viewRequestDetails(_request: any) {
-    // console.log("request", _request);
-    
-    this.navCtrl.navigateForward('worker/job-request/j-r-detail', {
-      queryParams: {
-        request: JSON.stringify(_request)
-      }
+    this.init_static();
+    this.get_worker_activity_service_by_idworker(localStorage.getItem('userID'));
+    this.solicitudesSubscription = this.restService.solicitudesActualizadas$.subscribe(() => {
+      this.get_worker_activity_service_by_idworker(localStorage.getItem('userID'));  // Recargar solicitudes cuando se actualicen
     });
   }
 
-  getBadgeColor(status: string): string {
-    switch (status) {
-      case 'Pendiente':
-        return 'warning';
-      case 'Aceptada':
-        return 'success';
-      case 'Rechazada':
-        return 'danger';
-      default:
-        return 'medium';
+  async get_worker_activity_service_by_idworker(_wc_id: any) {
+
+    try {
+      const data = await this.restService.get_worker_activity_service_by_idworker(_wc_id);
+      // for (let index = 0; index < data.length; index++) {
+      //   data[index].show_buttons = this.active_buttons(data[index].date_services);
+      // }
+      this.current_worker_join_services = data;      
+      console.log("current_worker_join_services", this.current_worker_join_services);
+
+    } catch (error) {
+      console.error("Error fetching category by ID:", error);
     }
+
   }
+
+  init_static() {
+    this.state = StaticElement.state_activity;
+  }
+
+  get_state_name(_id: any): object {
+    return this.state.find(obj => obj.id == _id)?.name;
+  };
+  get_state_color(_id: any): object {
+    return this.state.find(obj => obj.id == _id)?.color;
+  };
 
   // Navegar al historial de trabajos
   goToJobHistory() {
@@ -119,6 +115,12 @@ export class JobRequestPage implements OnInit {
   // Navegar a la vista de chats
   goToChats() {
     this.navCtrl.navigateForward('worker/job-request/j-r-chat-list');
+  }
+
+  ngOnDestroy() {
+    if (this.solicitudesSubscription) {
+      this.solicitudesSubscription.unsubscribe();  // Limpiar la suscripción
+    }
   }
 
 }

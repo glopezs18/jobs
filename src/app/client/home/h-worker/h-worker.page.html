@@ -22,10 +22,10 @@
         <h4 class="person-service-title">Sobre mi</h4>
       </ion-label>
       <p>{{ current_worker?.about_me }}</p>
-      <ion-label>
+      <!-- <ion-label>
         <h4 class="person-service-title">Portafolio</h4>
-      </ion-label>
-      <swiper-container [pagination]="true" navitagion="true">
+      </ion-label> -->
+      <!-- <swiper-container [pagination]="true" navitagion="true">
         <swiper-slide class="SwiperSlide">
           <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
         </swiper-slide>
@@ -41,7 +41,7 @@
         <swiper-slide class="SwiperSlide">
           <img src="https://cdn.pacifiko.com/image/cache/catalog/p/ZTVhZWE1N2_1-1000x1000.png" alt="">
         </swiper-slide>
-      </swiper-container>
+      </swiper-container> -->
     </ion-card-content>
   </ion-card>
 
@@ -57,14 +57,14 @@
 
         <form class="form-msg" [formGroup]="form_msg" #f="ngForm" autocomplete="off">
           <ion-list>
-            <ion-item>
+            <!-- <ion-item>
               <ion-input type="text" labelPlacement="floating" ngModel name formControlName="subject">
                 <div slot="label">Asunto <ion-text color="danger"></ion-text></div>
               </ion-input>
-            </ion-item>
+            </ion-item> -->
 
             <ion-item>
-              <ion-textarea label="Escribe tu mensaje" labelPlacement="floating" name
+              <ion-textarea label="Escribe tu mensaje" [(ngModel)]="newMessage" labelPlacement="floating" name
                 formControlName="message"></ion-textarea>
               <div slot="label">Escribe tu mensaje <ion-text color="danger"></ion-text></div>
             </ion-item>
@@ -91,12 +91,16 @@
           </ion-buttons>
           <ion-title>Agendar</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="modal_booking.dismiss('Giancarlo', 'confirm')" [strong]="true">Confirmar</ion-button>
+            <ion-button (click)="modal_booking.dismiss(null, 'confirm');" [strong]="true">Confirmar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-list>
+          <ion-item>
+            <ion-input label="Titulo del servicio" labelPlacement="floating" [(ngModel)]="title_service"></ion-input>
+            <div slot="label">Titulo de solicitud <ion-text color="danger"></ion-text></div>
+          </ion-item>
           <ion-item>
             <ion-textarea label="Descripción de servicio" labelPlacement="floating" [(ngModel)]="description_service"></ion-textarea>
             <div slot="label">Escribe tu mensaje <ion-text color="danger"></ion-text></div>
@@ -105,12 +109,13 @@
             <ion-select label="Mi ubicación" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="selectLocationChange($event)" placeholder="Selecciona una opción">
               <!-- <ion-select-option value="bacon">Casa</ion-select-option>
               <ion-select-option value="onions">Trabajo</ion-select-option>-->
-              <ion-select-option *ngFor="let location of locations" [value]="location">{{ location.name }}</ion-select-option>
+              <ion-select-option *ngFor="let location of my_locations" [value]="location.address">{{ location.name }}</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item class="ion-margin-top">
-            <ion-datetime [(ngModel)]="date_service">
+            <ion-datetime [min]="min_date" [(ngModel)]="date_service" [value]="date_service">
               <span slot="title">Selecciona una fecha</span>
+              <span slot="time-label">Hora</span>
             </ion-datetime>
           </ion-item>         
         </ion-list>
@@ -118,22 +123,25 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+  <ion-toast [isOpen]="isToastBookingOpen" [message]="toastMsg" [duration]="3000"
+            (didDismiss)="setOpenToastBooking(false)" [color]="toastColor" position="bottom" [icon]="toastIcon"></ion-toast>
 </ion-content>
 <ion-footer [translucent]="true" id="footer">
   <ion-toolbar>
     <ion-row>
-      <ion-col size="6">
+      <ion-col size="12">
         <ion-button id="open-modal" expand="block">
           <ion-icon slot="start" name="mail-outline"></ion-icon>
           Mensaje
         </ion-button>
       </ion-col>
-      <ion-col size="6">
+      <!-- <ion-col size="6">
         <ion-button id="modal-booking" color="secondary">
           <ion-icon slot="start" name="calendar-outline"></ion-icon>
           Agendar
         </ion-button>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
   </ion-toolbar>
 </ion-footer>

@@ -20,8 +20,10 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ProfileService } from '../../services/profile-client.service'
 import { addIcons } from "ionicons";
-import { personCircle, settingsOutline, logOutOutline, locationOutline } from "ionicons/icons";
+import { personCircle, settingsOutline, logOutOutline, locationOutline, cameraOutline, imageOutline, trashOutline } from "ionicons/icons";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // Plugin de cámara
+import { RestService } from '../../services/rest.service'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -33,9 +35,13 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // P
 export class ProfilePage implements OnInit {
 
   data_profile: any = null;
+  profile: any = null;
   selectedFile: File | null = null;
   profilePictureUrl: string = '';
   currentUserId: any = localStorage.getItem('userID');
+
+  profileSubscription: Subscription;
+
   public actionSheetButtons = [
     {
       text: 'Tomar una foto',
@@ -73,14 +79,26 @@ export class ProfilePage implements OnInit {
   constructor(
     private router: Router,
     private profileService: ProfileService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private restService: RestService
   ) {
-    addIcons({ settingsOutline, locationOutline, logOutOutline });
+    addIcons({settingsOutline,locationOutline,logOutOutline});
   }
 
   ngOnInit() {
     this.get_profile_picture(localStorage.getItem('userID'));
+    this.get_client_profile(localStorage.getItem('userID'));
     // this.loadProfilePicture();
+
+    this.profileSubscription = this.restService.perfilActualizado$.subscribe(() => {
+      this.get_client_profile(localStorage.getItem('userID'));  // Recargar solicitudes cuando se actualicen
+    });
+  }
+
+  async get_client_profile(_c_id: any) {
+    const data = await this.restService.get_client_profile(_c_id);    
+    console.log(data);
+    this.profile = data[0];
   }
 
   async get_profile_picture(_client_id: any) {

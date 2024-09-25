@@ -49,8 +49,12 @@ export const routes: Routes = [
     path: 'home/h-categorie-single/:id',
     loadComponent: () => import('./home/h-categorie-single/h-categorie-single.page').then( m => m.HCategorieSinglePage)
   },
+  // {
+  //   path: 'home/h-worker/:id',
+  //   loadComponent: () => import('./home/h-worker/h-worker.page').then( m => m.HWorkerPage)
+  // },
   {
-    path: 'home/h-worker/:id',
+    path: 'home/h-worker/:category/:id',
     loadComponent: () => import('./home/h-worker/h-worker.page').then( m => m.HWorkerPage)
   },
   {

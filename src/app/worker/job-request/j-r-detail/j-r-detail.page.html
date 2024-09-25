@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="worker/job-request"></ion-back-button>
+      <ion-back-button text="Regresar" defaultHref="worker/job-request"></ion-back-button>
     </ion-buttons>
     <ion-title>Detalles de la Solicitud</ion-title>
   </ion-toolbar>
@@ -10,17 +10,20 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{ request.client }}</ion-card-title>
-      <ion-card-subtitle>{{ request.service }}</ion-card-subtitle>
+      <ion-card-title>{{ current_worker_activity?.client_name }}</ion-card-title>
+      <ion-card-subtitle>{{ current_worker_activity?.title }}</ion-card-subtitle>      
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Fecha:</strong> {{ request.date }}</p>
-      <p><strong>Descripción:</strong> {{ request.description }}</p>
-      <p><strong>Dirección:</strong> {{ request.address }}</p>
-      <p><strong>Tarifa Ofrecida:</strong> ${{ request.price }}</p>
+      <ion-badge (click)="presentActionSheet(current_worker_activity)"
+            color="{{ get_state_color(current_worker_activity?.status) }}">{{
+            get_state_name(current_worker_activity?.status) }}</ion-badge>
+      <p><strong>Fecha de servicio:</strong> {{ current_worker_activity?.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</p>
+      <p><strong>Descripción:</strong> {{ current_worker_activity?.detail }}</p>
+      <p><strong>Dirección:</strong> {{ current_worker_activity?.location }}</p>
+      <p><strong>Tarifa Ofrecida:</strong> GTQ{{ current_worker_activity?.cost }}</p>
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="full" color="success" (click)="acceptRequest()">Aceptar Solicitud</ion-button>
-  <ion-button expand="full" color="danger" (click)="rejectRequest()">Rechazar Solicitud</ion-button>
+  <!-- <ion-button *ngIf="current_worker_activity?.status == 0" expand="full" color="success" (click)="acceptRequest()">Aceptar Solicitud</ion-button>
+  <ion-button *ngIf="current_worker_activity?.status == 0" expand="full" color="danger" (click)="rejectRequest()">Rechazar Solicitud</ion-button> -->
 </ion-content>

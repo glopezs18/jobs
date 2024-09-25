@@ -3,27 +3,30 @@
     <ion-buttons slot="start">
       <ion-back-button text="Regresar" defaultHref="client/conversation"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ conversation.title }}</ion-title>
+    <ion-title></ion-title>   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let message of messages" class="message">
-    <div [ngClass]="{ 'message-sent': message.sender === 'Me', 'message-received': message.sender !== 'Me' }">
-      <p>{{ message.text }}</p>
-      <ion-note>{{ message.timestamp | date:'shortTime' }}</ion-note>
+  <div class="chat-container">
+    <div *ngFor="let message of messages" [ngClass]="{'message-sent': message.senderId === client_id, 'message-received': message.senderId !== client_id}">
+      <div class="message-bubble">
+        <p>{{ message.message }}</p>
+        <small>{{ message.timestamp.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</small>
+      </div>
     </div>
   </div>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-input [(ngModel)]="newMessage" placeholder="Type a message" clearInput></ion-input>
-    <ion-buttons slot="end">
-      <ion-button (click)="sendMessage()">
-        <!-- Send -->
-        <ion-icon slot="start" name="send"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+  <ion-toolbar class="input-toolbar">
+    <!-- <ion-item lines="none" class="message-input"> -->
+      <ion-input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..."></ion-input>
+      <ion-buttons slot="end">
+        <ion-button (click)="sendMessage()">
+          <ion-icon slot="start" name="send"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    <!-- </ion-item> -->
   </ion-toolbar>
 </ion-footer>

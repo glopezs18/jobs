@@ -18,6 +18,7 @@ import {
   IonBadge,
   IonButton
 } from '@ionic/angular/standalone';
+import { RestWorkerService } from '../../services/rest.worker.service';
 
 @Component({
   selector: 'app-home',
@@ -54,11 +55,13 @@ export class HomePage implements OnInit {
   incomeData: any[];
   jobCategoryData: any[];
 
-  constructor() {
+  current_worker_join_services: any[] = [];
+
+  constructor(private restService: RestWorkerService ) {
     // Inicializar los datos del resumen de actividad
-    this.totalRequests = 15;  // Ejemplo de solicitudes de trabajo recibidas
-    this.completedJobs = 10;  // Ejemplo de trabajos completados
-    this.totalIncome = 500;   // Ejemplo de ingresos generados
+    this.totalRequests = 0;  // Ejemplo de solicitudes de trabajo recibidas
+    this.completedJobs = 0;  // Ejemplo de trabajos completados
+    this.totalIncome = 0;   // Ejemplo de ingresos generados
     this.clientFeedbacks = 8; // Ejemplo de comentarios recibidos
 
 
@@ -80,9 +83,34 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     // Lógica adicional al inicializar el componente, si es necesario
+    this.get_worker_activity_service_by_idworker(localStorage.getItem('userID'));
   }
 
   // Métodos para manejar la lógica del Dashboard
+
+  async get_worker_activity_service_by_idworker(_wc_id: any) {
+
+    try {
+      const data = await this.restService.get_total_worker_activity_service_by_idworker(_wc_id);      
+      // for (let index = 0; index < data.length; index++) {
+      //   data[index].show_buttons = this.active_buttons(data[index].date_services);
+      // }
+      this.current_worker_join_services = data;      
+      this.totalRequests = this.current_worker_join_services.length;
+      for (let index = 0; index < this.current_worker_join_services.length; index++) {
+        const request_service = this.current_worker_join_services[index];
+        if (request_service.status == 3) {
+          this.completedJobs = this.completedJobs + 1;
+          this.totalIncome += parseInt(request_service.cost, 10); 
+        }
+      }
+      console.log("current_worker_join_services", this.current_worker_join_services);
+
+    } catch (error) {
+      console.error("Error fetching category by ID:", error);
+    }
+
+  }
 
   getTotalRequests() {
     return this.totalRequests;

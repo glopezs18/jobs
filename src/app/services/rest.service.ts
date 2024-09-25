@@ -4,7 +4,8 @@ import { map } from 'rxjs/operators';
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
-import { getFirestore, DocumentData, Firestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where, updateDoc, addDoc, CollectionReference } from 'firebase/firestore';
+import { getFirestore, DocumentData, Firestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where, updateDoc, addDoc, CollectionReference, QuerySnapshot } from 'firebase/firestore';
+import { Subject } from 'rxjs';
 
 // Inicializa Firebase
 const firebaseApp = initializeApp(environment.firebase);
@@ -16,8 +17,15 @@ const auth = getAuth(firebaseApp);
 })
 export class RestService {
 
+  private perfilActualizado = new Subject<void>();
+  private solicitudesActualizadas = new Subject<void>();
+
+  // Observable para que otros componentes se suscriban
+  perfilActualizado$ = this.perfilActualizado.asObservable();
+  solicitudesActualizadas$ = this.solicitudesActualizadas.asObservable();
+
   private clientLocationCollection: CollectionReference;
-  constructor() { 
+  constructor() {
     this.clientLocationCollection = collection(firestore, 'client_location');
   }
 
@@ -41,7 +49,7 @@ export class RestService {
 
   async get_worker_by_idcategorie(_wcId: string): Promise<any[]> {
     // Crear referencia al documento de la categoría
-    const categoryRef = doc(firestore, `worker_category/${_wcId}`);    
+    const categoryRef = doc(firestore, `worker_category/${_wcId}`);
     // Referencia a la colección de trabajadores
     const workersRef = collection(firestore, 'worker');
     // Consulta donde 'worker_category' coincide con la referencia de categoría
@@ -53,6 +61,24 @@ export class RestService {
       id: doc.id,
       ...doc.data()
     }));
+  }
+
+  async get_workers_by_category(category: string) {
+    const workersRef = collection(firestore, 'worker');
+    const q = query(workersRef, where('categories', 'array-contains', category));
+
+
+    try {
+      const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(q);
+      const workers = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      return workers;
+    } catch (error) {
+      console.error("Error fetching workers by category: ", error);
+      return [];
+    }
   }
 
 
@@ -100,12 +126,13 @@ export class RestService {
     const workerActivityServiceDoc = doc(firestore, `worker_join_service/${_wasId}`);
 
     try {
-      return await updateDoc(workerActivityServiceDoc, _updated_data);
+      await updateDoc(workerActivityServiceDoc, _updated_data);
+      this.solicitudesActualizadas.next();
     } catch (e) {
       console.error("Error updating document: ", e);
     }
   }
-  
+
   //Locations Client
   async get_client_locations(_client_id: string) {
     const clientRef = doc(firestore, `client/${_client_id}`);
@@ -116,7 +143,7 @@ export class RestService {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));    
+    }));
   }
 
   async get_client_location_by_id(_location_id: string): Promise<any[]> {
@@ -130,7 +157,7 @@ export class RestService {
     }
   }
 
-  async create_client_location(_location: any, _client_id: any): Promise<any> {    
+  async create_client_location(_location: any, _client_id: any): Promise<any> {
     try {
       const clientRef = doc(firestore, `client/${_client_id}`);
       // Agregar la referencia al campo client_id
@@ -183,9 +210,38 @@ export class RestService {
     const clientDoc = doc(firestore, `client/${_client_id}`);
 
     try {
-      return await updateDoc(clientDoc, _updated_data);
+      await updateDoc(clientDoc, _updated_data);
+      this.perfilActualizado.next();
+
     } catch (e) {
       console.error("Error updating document: ", e);
+    }
+  }  
+
+  //Solicitudes de servicio
+  async create_join_service(_workerId: string, _clientId: string, _categoryId: string, _solicitudData: any) {
+    try {
+      // Obtener referencias a los documentos
+      const workerRef = doc(firestore, `worker/${_workerId}`);
+      const clientRef = doc(firestore, `client/${_clientId}`);
+      const categoryRef = doc(firestore, `worker_category/${_categoryId}`);
+
+      // Añadir la solicitud con las referencias
+      const solicitudesRef = collection(firestore, 'worker_join_service');
+      const solicitud = {
+        ..._solicitudData,
+        worker_id: workerRef,   // Guardar referencia del trabajador
+        client_id: clientRef,   // Guardar referencia del cliente
+        worker_category: categoryRef, // Guardar referencia de la categoría
+        status: 0,           // Estado pendiente (por ejemplo)
+        createdAt: new Date(),
+      };
+
+      const docRef = await addDoc(solicitudesRef, solicitud);
+      return docRef.id;
+    } catch (error) {
+      console.error('Error creando solicitud: ', error);
+      throw error;
     }
   }
 }

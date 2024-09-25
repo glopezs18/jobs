@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="worker/job-request"></ion-back-button>
+      <ion-back-button text="Regresar" defaultHref="worker/job-request"></ion-back-button>
     </ion-buttons>
     <ion-title>Historial de Trabajos</ion-title>
   </ion-toolbar>
@@ -9,13 +9,13 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let job of jobHistory" (click)="viewJobDetail(job)">
+    <ion-item *ngFor="let item of current_worker_services_history" button [routerLink]="'j-r-h-detail/' + item.id">
       <ion-label>
-        <h2>{{ job.serviceName }}</h2>
-        <p>{{ job.clientName }} - {{ job.date | date:'medium' }}</p>
-        <ion-badge [color]="getBadgeColor(job.status)">{{ job.status }}</ion-badge>
+        <h2>{{ item?.title }}</h2>
+        <p>{{ item?.client_name }} - {{ item?.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a'}}</p>
+        <ion-badge color="{{ get_state_color(item?.status) }}">{{ get_state_name(item?.status) }}</ion-badge>
       </ion-label>
-      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      <!-- <ion-icon name="chevron-forward-outline" slot="end"></ion-icon> -->
     </ion-item>
   </ion-list>
 </ion-content>

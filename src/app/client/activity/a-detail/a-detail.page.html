@@ -8,7 +8,7 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" class="ion-padding">  
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-row class="activity-content-info">
     <!-- <ion-col size="12">
       <ion-icon name="person-circle"></ion-icon>              
@@ -20,18 +20,20 @@
       <div>
         <ion-label class="activity-content-info-category">Servicio de electricidad {{ current_activity_id }}</ion-label>
       </div>
-    </ion-col>       -->    
+    </ion-col>       -->
     <ion-col size="12" class="ion-text-left">
       <ion-item lines="none">
         <ion-label>
           <h3 class="activity-title">{{ current_client_activity?.title }}</h3>
           <!-- <ion-badge color="secondary">Completado</ion-badge> -->
-          <ion-badge (click)="presentActionSheet(current_client_activity)" color="{{ get_state_color(current_client_activity?.status) }}">{{ get_state_name(current_client_activity?.status) }}</ion-badge>
-        </ion-label> 
+          <ion-badge (click)="presentActionSheet(current_client_activity)"
+            color="{{ get_state_color(current_client_activity?.status) }}">{{
+            get_state_name(current_client_activity?.status) }}</ion-badge>
+        </ion-label>
       </ion-item>
-    </ion-col>   
+    </ion-col>
   </ion-row>
-  
+
   <ion-row>
     <ion-item>
       <ion-thumbnail slot="start">
@@ -40,12 +42,13 @@
       <ion-label>{{ current_client_activity?.worker_name }}</ion-label>
     </ion-item>
   </ion-row>
-  <ion-row class="ion-padding-start">    
+  <ion-row class="ion-padding-start">
     <ion-col size="12" class="ion-margin-top">
-      <ion-text class="acitivty-text">{{ current_client_activity?.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</ion-text>
+      <ion-text class="acitivty-text">{{ current_client_activity?.date_services.toMillis() | date:'yyyy/MM/dd h:mm:ss a'
+        }}</ion-text>
     </ion-col>
     <ion-col size="12">
-      <ion-text class="acitivty-text">GTQ{{ current_client_activity?.cost }}</ion-text>    
+      <ion-text class="acitivty-text">GTQ{{ current_client_activity?.cost }}</ion-text>
     </ion-col>
   </ion-row>
 
@@ -54,10 +57,10 @@
       <ion-list lines="none">
         <ion-item>
           <ion-label>
-            <h5 class="activity-subtitle">              
+            <h5 class="activity-subtitle">
               Dirección
             </h5>
-            <p>              
+            <p>
               <ion-icon slot="start" name="location-outline"></ion-icon>
               {{ current_client_activity?.location }}
             </p>
@@ -65,15 +68,19 @@
         </ion-item>
         <ion-item>
           <ion-label>
-            <h5 class="activity-subtitle">              
+            <h5 class="activity-subtitle">
               Descripción
             </h5>
             <p>
               {{ current_client_activity?.detail }}
             </p>
-          </ion-label>          
+          </ion-label>
         </ion-item>
       </ion-list>
+      <ion-button *ngIf="current_client_activity?.status == 0" expand="full" color="success"
+        (click)="acceptRequest()">Aceptar Solicitud</ion-button>
+      <ion-button *ngIf="current_client_activity?.status == 0" expand="full" color="danger"
+        (click)="rejectRequest()">Rechazar Solicitud</ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

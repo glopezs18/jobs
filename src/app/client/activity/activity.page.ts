@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 
 import { StaticElement } from '../../services/static.element';
 import { RestService } from '../../services/rest.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-activity',
@@ -22,7 +23,7 @@ export class ActivityPage implements OnInit {
   // @ViewChild(IonItemSliding) slide_item: IonItemSliding;
 
   current_worker_join_services: any[] = [];
-
+  solicitudesSubscription: Subscription;
   constructor(
     private restService: RestService,
     public alertCtrl: AlertController
@@ -33,6 +34,10 @@ export class ActivityPage implements OnInit {
   ngOnInit() {
     this.init_static();
     this.get_worker_activity_service_by_idclient(localStorage.getItem('userID'));
+
+    this.solicitudesSubscription = this.restService.solicitudesActualizadas$.subscribe(() => {
+      this.get_worker_activity_service_by_idclient(localStorage.getItem('userID'));  // Recargar solicitudes cuando se actualicen
+    });
 
     setTimeout(() => {
       if (this.current_worker_join_services.length > 0) {
@@ -68,11 +73,8 @@ export class ActivityPage implements OnInit {
 
   }
 
-  async update_worker_activity_service(_item: any, _status: any, _index: any) {
-    console.log("status", _status);
-    console.log("current_client_activity old " + _index, this.current_worker_join_services[_index]);
-    this.current_worker_join_services[_index].status = _status;
-    console.log("current_client_activity new " + _index, this.current_worker_join_services[_index]);
+  async update_worker_activity_service(_item: any, _status: any, _index: any) {        
+    this.current_worker_join_services[_index].status = _status;    
 
     try {
       await this.restService.update_worker_activity_service(this.current_worker_join_services[_index], _item.id);            
@@ -117,5 +119,11 @@ export class ActivityPage implements OnInit {
     let today = new Date();
 
     return today < date_service;
+  }
+
+  ngOnDestroy() {
+    if (this.solicitudesSubscription) {
+      this.solicitudesSubscription.unsubscribe();  // Limpiar la suscripción
+    }
   }
 }

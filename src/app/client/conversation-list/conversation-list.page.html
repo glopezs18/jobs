@@ -6,16 +6,16 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let conversation of conversations; trackBy: trackByFn" [routerLink]="'c-l-detail/' + conversation?.id">
+    <ion-item *ngFor="let chat of chats" (click)="openChat(chat.id)">
       <ion-avatar slot="start">
-        <img [src]="conversation?.imageUrl" alt="{{ conversation?.title }}">
+        <img [src]="chat.profilePicture" alt="Profile Picture">
       </ion-avatar>
       <ion-label>
-        <h2>{{ conversation?.title }}</h2>
-        <p>{{ conversation?.lastMessage }}</p>
+        <h2>{{ chat.profileName }}</h2>
+        <p>{{ chat.lastMessage }}</p>
+        <ion-note>{{ chat.lastMessageTimestamp.toMillis() | date:'yyyy/MM/dd h:mm:ss a' }}</ion-note>
       </ion-label>
-      <ion-badge *ngIf="conversation.unreadCount > 0" color="primary">{{ conversation?.unreadCount }}</ion-badge>
-      <ion-note slot="end">{{ conversation?.timestamp | date:'shortTime' }}</ion-note>
+      <ion-badge *ngIf="chat.isUnread" color="danger">{{ chat.unreadCount }}</ion-badge>
     </ion-item>
   </ion-list>
 </ion-content>
