@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>Inicio de sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -33,13 +33,12 @@
           Password must be at least 6 characters long
         </ion-text>
       </div> -->
-      <ion-button expand="block" type="submit" (click)="login()" [disabled]="!credentialsForm.valid">Login client</ion-button>
+      <ion-button expand="block" type="submit" (click)="login()" [disabled]="!credentialsForm.valid">Iniciar Sesión</ion-button>
       
 
       <!-- <ion-button expand="block" type="submit" (click)="login_client()" [disabled]="!credentials.valid">Login client</ion-button>
       <ion-button expand="block" type="submit" (click)="login_worker()" [disabled]="!credentials.valid">Login worker</ion-button> -->
     </form>
-    <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">Not yet a member? Sign
-      Up!</ion-button>
+    <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">No eres miembro? Registrate!</ion-button>
   </div>
 </ion-content>

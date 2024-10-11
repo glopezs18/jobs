@@ -15,10 +15,6 @@ PODS:
     - Capacitor
   - CapacitorStatusBar (6.0.0):
     - Capacitor
-  - CordovaPlugins (6.1.2):
-    - CapacitorCordova
-    - Firebase/Messaging (~> 7.4.0)
-  - CordovaPluginsResources (0.0.105)
   - Firebase/CoreOnly (7.4.0):
     - FirebaseCore (= 7.4.0)
   - Firebase/Messaging (7.4.0):
@@ -95,8 +91,6 @@ DEPENDENCIES:
   - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
-  - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
-  - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
 
 SPEC REPOS:
   trunk:
@@ -128,10 +122,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/keyboard"
   CapacitorStatusBar:
     :path: "../../node_modules/@capacitor/status-bar"
-  CordovaPlugins:
-    :path: "../capacitor-cordova-ios-plugins"
-  CordovaPluginsResources:
-    :path: "../capacitor-cordova-ios-plugins"
 
 SPEC CHECKSUMS:
   Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
@@ -142,8 +132,6 @@ SPEC CHECKSUMS:
   CapacitorHaptics: 9ebc9363f0e9b8eb4295088a0b474530acf1859b
   CapacitorKeyboard: 5f32a712adf41e07a61caafb82cf29fb6d8ba123
   CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
-  CordovaPlugins: 16bffba70011651c06c6520aaf786588d0a9a241
-  CordovaPluginsResources: 0c211f770ed91763a179ebcd9b9346e120b70662
   Firebase: 09fb40287b6dfc8ee65f726fa0b788719d3f2a07
   FirebaseCore: 99c06e5a1e8d6952e75cb1f0a6d0b23c0f5ccdcf
   FirebaseCoreDiagnostics: 68ad972f99206cef818230f3f3179d52ccfb7f8c
@@ -155,6 +143,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
 
-PODFILE CHECKSUM: 2593e35446d9c896c652b9f2183a41f15e5f373f
+PODFILE CHECKSUM: b21a61b32f7e664f7bdf8e03697b152b071c5301
 
 COCOAPODS: 1.15.2

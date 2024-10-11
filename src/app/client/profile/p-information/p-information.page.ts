@@ -5,7 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonNavLink, IonButtons, Io
 import { RestService } from '../../../services/rest.service'
 import { StaticElement } from '../../../services/static.element';
 import { Timestamp } from 'firebase/firestore';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
   checkmarkCircle,
@@ -30,7 +30,8 @@ export class PInformationPage implements OnInit {
 
   constructor(
     private builder: FormBuilder,
-    private restService: RestService
+    private restService: RestService,
+    private navCtrl: NavController
   ) { 
     addIcons({ checkmarkCircle, closeCircle });
   }
@@ -51,6 +52,10 @@ export class PInformationPage implements OnInit {
   init_static() {
     //gender_select
     this.gender_select = StaticElement.gender_select;
+  }
+
+  goBack() {
+    this.navCtrl.navigateBack('/client/profile');
   }
 
   async get_client_profile(_c_id: any) {

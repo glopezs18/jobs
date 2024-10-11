@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonNavLink, IonButtons, IonBackButton, IonItem, IonLabel, IonIcon, IonText, IonNote, IonList, ActionSheetController, IonFab, IonFabButton, IonModal, IonButton, IonInput, IonToast } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
+
 import { 
   trashOutline,
   homeOutline,
@@ -16,7 +17,7 @@ import {
 
 import { OverlayEventDetail } from '@ionic/core/components';
 import { RestService } from '../../../services/rest.service'
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-p-location',
@@ -51,13 +52,18 @@ export class PLocationPage implements OnInit {
   constructor(
     public actionSheetCtrl: ActionSheetController,
     private restService: RestService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navCtrl: NavController
   ) { 
     addIcons({ trashOutline, homeOutline, createOutline, ellipsisVertical, locationOutline, add, checkmarkCircle, closeCircle });
   }
 
   ngOnInit() {
     this.get_client_locations(localStorage.getItem('userID'));
+  }
+
+  goBack() {
+    this.navCtrl.navigateBack('/client/profile');
   }
 
   async presentActionSheet(_item: any) {

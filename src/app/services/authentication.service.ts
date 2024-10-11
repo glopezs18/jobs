@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 // import { Auth, signInWithEmailAndPassword, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, User, updatePassword, EmailAuthProvider, reauthenticateWithCredential, } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, User, updatePassword, EmailAuthProvider, reauthenticateWithCredential, createUserWithEmailAndPassword } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
-import { getFirestore, DocumentData, Firestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where, updateDoc, addDoc } from 'firebase/firestore';
+import { getFirestore, DocumentData, Firestore, collection, doc, setDoc, getDocs, getDoc, deleteDoc, query, where, updateDoc, addDoc, Timestamp } from 'firebase/firestore';
 import { getMessaging, getToken } from 'firebase/messaging';
 
 
@@ -117,6 +117,60 @@ export class AuthenticationService {
       localStorage.removeItem('userID');
       this.router.navigate(['/signin']);
     });
+  }
+
+  async registerClient(client: any) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, client.email, client.password);
+      const userId = userCredential.user?.uid;
+      const clientRef = collection(this.firestore, 'client');
+
+      console.log("userId", userId);
+      console.log("firestore", this.firestore);
+
+      const date = new Date(client.birthday);
+      const timestamp = Timestamp.fromDate(date);
+      
+      await setDoc(doc(this.firestore, "client", userId), {
+        name: client.name || '',
+        email: client.email || '',
+        phone: client.phone || '',
+        gender: (client.gender == "male") ? 1 : 2,
+        password: client.password || '',
+        birthday: timestamp || '',
+        type: client.type || '',
+        date_register: new Date()
+      });
+      console.log('Documento creado exitosamente en Firestore');
+    } catch (error: any) {
+      console.error('Error en el registro:', error);
+    }
+  }
+
+  async registerWorker(worker: any) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, worker.email, worker.password);
+      const userId = userCredential.user?.uid;
+
+      const date = new Date(worker.birthday);
+      const timestamp = Timestamp.fromDate(date);
+
+      await setDoc(doc(this.firestore, 'worker', userId), {
+        name: worker.name,
+        dpi: worker.dpi,
+        email: worker.email,
+        phone: worker.phone,
+        birthday: timestamp,
+        gender: (worker.gender == "male") ? 1 : 2,
+        password: worker.password,
+        type: worker.type,
+        date_register: new Date()
+      });
+
+      
+    } catch (error: any) {
+      
+    }
   }
 
 

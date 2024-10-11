@@ -1,52 +1,116 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Register</ion-title>
+    <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="login-container">
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
-      <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Apellido</ion-label>
-        <ion-input type="text" formControlName="lastname"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <!-- <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="errors">
-        <ion-text color="danger" *ngIf="email?.hasError('required')">
-          Email is required
-        </ion-text>
-        <ion-text color="danger" *ngIf="email?.hasError('email')">
-          Email is invalid
-        </ion-text>
-      </div> -->
-      <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password"></ion-input>
-        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="showPassword = !showPassword"></ion-icon>
-      </ion-item>
-      <!-- <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="errors">
-        <ion-text color="danger" *ngIf="password?.hasError('required')">
-          Password is required
-        </ion-text>
-        <ion-text color="danger" *ngIf="password?.hasError('minlength')">
-          Password must be at least 6 characters long
-        </ion-text>
-      </div> -->
-      <ion-item>
-        <ion-label position="floating">Repetir contraseña</ion-label>
-        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="repeat_password"></ion-input>
-        <!-- <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="showPassword = !showPassword"></ion-icon> -->
-      </ion-item>
-      <ion-button expand="block" type="submit" [disabled]="!registerForm.valid">Registrarme</ion-button>
-    </form>
-    <ion-button expand="block" fill="clear" (click)="navigateToSignIn()">are you member? SignIn!</ion-button>
+  <div style="text-align: center;">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button [ngClass]="formTypeBool ? 'active' : ''" class="btn-register" (click)="toggleForm(1)" expand="block" color="primary">
+            Cliente
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button [ngClass]="!formTypeBool ? 'active' : ''" class="btn-register" (click)="toggleForm(2)" expand="block" color="secondary">
+            Trabajador
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    
   </div>
+
+  <form *ngIf="formType == 1" (submit)="registerClient()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input [(ngModel)]="client.name" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input [(ngModel)]="client.email" type="email" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <!-- <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-input [(ngModel)]="client.birthday" type="date" required></ion-input> -->
+      <ion-input
+        type="date"               
+        [(ngModel)]="client.birthday">
+          <div slot="label">Fecha de nacimiento <ion-text color="danger"></ion-text></div>
+       </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Teléfono</ion-label>
+      <ion-input [(ngModel)]="client.phone" type="tel" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <!-- <ion-label position="floating">Género</ion-label>
+      <ion-select [(ngModel)]="client.gender">
+        <ion-select-option value="male">Masculino</ion-select-option>
+        <ion-select-option value="female">Femenino</ion-select-option>
+      </ion-select> -->
+
+      <ion-select [(ngModel)]="client.gender">
+        <div slot="label">Género </div>
+        <ion-select-option [value]="1">Masculino</ion-select-option>
+        <ion-select-option [value]="2">Femenino</ion-select-option>          
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input [(ngModel)]="client.password" type="password" required></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit">Registrar Cliente</ion-button>
+  </form>
+
+  <form *ngIf="formType == 2" (submit)="registerWorker()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input [(ngModel)]="worker.name" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">DPI</ion-label>
+      <ion-input [(ngModel)]="worker.dpi" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input [(ngModel)]="worker.email" type="email" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Teléfono</ion-label>
+      <ion-input [(ngModel)]="worker.phone" type="tel" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <!-- <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-input [(ngModel)]="worker.birthday" type="date" required></ion-input> -->
+      <ion-input
+        type="date"               
+        [(ngModel)]="worker.birthday">
+          <div slot="label">Fecha de nacimiento <ion-text color="danger"></ion-text></div>
+       </ion-input>
+    </ion-item>
+    <ion-item>
+      <!-- <ion-label position="floating">Género</ion-label>
+      <ion-select [(ngModel)]="worker.gender">
+        <ion-select-option value="male">Masculino</ion-select-option>
+        <ion-select-option value="female">Femenino</ion-select-option>
+      </ion-select> -->
+
+      <ion-select [(ngModel)]="worker.gender">
+        <div slot="label">Género </div>
+        <ion-select-option [value]="1">Masculino</ion-select-option>
+        <ion-select-option [value]="2">Femenino</ion-select-option>          
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input [(ngModel)]="worker.password" type="password" required></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit">Registrar Trabajador</ion-button>
+  </form>
+
+  <ion-button expand="block" fill="clear" (click)="navigateToSign()">Ya eres miembro? Inicia Sesión!</ion-button>
 </ion-content>

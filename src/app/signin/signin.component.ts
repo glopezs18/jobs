@@ -32,6 +32,7 @@ export class SigninComponent implements OnInit {
     if (this.credentialsForm.valid) {
       const { email, password } = this.credentialsForm.value;      
       this.authService.login(email, password);
+      this.credentialsForm.reset();
     } else {
       console.log("Formulario no válido");
       

@@ -21,7 +21,7 @@ export class ProfileService {
 
     // Subir imagen de perfil
     async uploadProfilePicture(file: File, userId: string): Promise<string> {
-        const storageRef = ref(this.storage, `${userId}/profile.jpg`);
+        const storageRef = ref(this.storage, `${userId}/pprofile.jpg`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         return new Promise((resolve, reject) => {
